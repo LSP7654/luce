@@ -1,7 +1,7 @@
 # Useful functions for reading info file, etc
 
 import numpy as np
-from string import split
+#from string import split
 
 h = 6.63e-27
 c = 2.99e10
@@ -20,13 +20,13 @@ def wavelengthToRGB(wavelength):
         red = 0.0
         green = 0.0
         blue = 1.0
-        print "Wavelength ", wavelength, " too blue for visible RGB!"
+        print("Wavelength ", wavelength, " too blue for visible RGB!")
 
     if(wavelength>781.0):
         red = 1.0
         green = 0.0
         blue = 0.0
-        print "Wavelength ", wavelength, " too red for visible RGB!"
+        print("Wavelength ", wavelength, " too red for visible RGB!")
 
 
     if(wavelength>=380.0 and wavelength < 440.0):
@@ -87,13 +87,13 @@ def calc_planck_function(Teff, lambda_min, lambda_max, npoints, norm=False):
 def read_infofile(prefix):
     infofile = prefix +'.info'
 
-    print "Reading information file ",infofile
+    print("Reading information file ",infofile)
     f =  open(infofile, 'r')
 
     line = f.readline()
     nfiles=int(line)
 
-    print "There are ", nfiles, " files"
+    print("There are ", nfiles, " files")
 
     line = f.readline()
     nstars = int(line)
@@ -109,7 +109,8 @@ def read_infofile(prefix):
         starname.append(line.strip())
         
         line = f.readline()
-        numbers = split(line)
+        #numbers = split(line)
+        numbers = line.split()
     
         starradius.append(float(numbers[0]))
         startemp.append(float(numbers[1]))
@@ -122,11 +123,11 @@ def read_infofile(prefix):
         
     f.close()
     
-    print "There are ",nstars, " stars"
-    print "Names: ",starname
-    print "Radii: ", starradius
-    print "Temperatures: ", startemp
-    print "Colours ", starcolor
-    print "Maximum Flux: ", fluxmax
+    print("There are ",nstars, " stars")
+    print("Names: ",starname)
+    print("Radii: ", starradius)
+    print("Temperatures: ", startemp)
+    print("Colours ", starcolor)
+    print("Maximum Flux: ", fluxmax)
     
     return nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax

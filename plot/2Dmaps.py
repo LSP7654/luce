@@ -5,7 +5,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import infofile
-from string import split
+#from string import split
 from os import system
 #from sys import exit
 
@@ -19,15 +19,18 @@ darkcol = 3
 
 # Read in input parameters
 
-prefix = raw_input("What is the file prefix? ")
-planetname = raw_input("What is the planet name? ")
+#prefix = input("What is the file prefix? ")
+#planetname = input("What is the planet name? ")
+
+prefix = "test"
+planetname = "Earth"
 
 nfiles, nstars, starname, starradius, startemp, starcolor,fluxmax = infofile.read_infofile(prefix)
 
-moviechoice = raw_input("Make an animated gif at end? (y/n) ")
+moviechoice = input("Make an animated gif at end? (y/n) ")
 deletechoice = 'n'
 if(moviechoice=='y'):
-    deletechoice = raw_input("Delete .png files? (y/n) ")
+    deletechoice = input("Delete .png files? (y/n) ")
 
 nzeros = int(np.log10(nfiles))+1
 
@@ -43,7 +46,9 @@ for i in range(nfiles):
         k+=1     
         
     
-    inputfile = prefix +'_'+planetname+'_'+num+'.flux'    
+    #inputfile = prefix +'_'+planetname+'_'+num+'.flux'
+
+    inputfile = prefix +'_'+planetname+'.integrated'    
     fluxfile = 'flux_'+prefix+'_'+planetname+'.'+num+'.png'    
        
     # Read in header - time, position data etc
@@ -52,19 +57,30 @@ for i in range(nfiles):
 
     line = f.readline()
 
-    numbers = split(line)
+   # numbers = split(line)
+    numbers=line.split() 
 
-    time=float(numbers[0])
-    nlat = int(numbers[1])
-    nlong = int(numbers[2])
+    print(inputfile)
+    print(numbers)
+    print(numbers[0])
+    print(numbers[1])
+	
+    #time=float(numbers[0])
+    #nlat = int(numbers[1])
+    #nlong = int(numbers[2])
+
+    time = 0
+    print("warning: time is hardcoded T=0")
+    nlat = int(numbers[0])
+    nlong = int(numbers[1])
         
     f.close()
     
-    print 'File ', str(i+1),' Time  ', time, " yr"
+    print('File', str(i+1),'Time', time, "yr")
     
     # Read in rest of file
     
-    data = np.genfromtxt(inputfile, skiprows=1)
+    data = np.genfromtxt(inputfile, skip_header=1)
         
     # Reshape to fit 2D array
     
@@ -81,7 +97,8 @@ for i in range(nfiles):
     ax = fig1.add_subplot(111)
     ax.set_xlabel('Longitude (degrees)')
     ax.set_ylabel('Latitude (degrees)')
-    plt.pcolor(longitude,latitude,flux, cmap='spectral',vmin = 0.0, vmax = fluxmax)
+    #vmax was set to fluxmax but I changed it
+    plt.pcolor(longitude,latitude,flux, cmap='Spectral')
     plt.colorbar()
 
     plt.savefig(fluxfile, format= 'png')
@@ -97,12 +114,12 @@ convertcommand = '/opt/ImageMagick/bin/convert '
 
 # Create movie if requested
 if(moviechoice=='y'):
-    print 'Creating animated gif of flux pattern, filename fluxmovie.gif'
+    print('Creating animated gif of flux pattern, filename fluxmovie.gif')
     system(convertcommand +'-delay 10 flux_'+prefix+'*.png fluxmovie.gif')
 
     if(deletechoice=='y'):
-        print 'Deleting png files'
+        print('Deleting png files')
         system('rm '+prefix+'_'+planetname+'*.png')                        
         
 
-print 'Complete'
+print('Complete')

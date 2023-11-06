@@ -23,29 +23,29 @@ def get_file_prefix(fileending):
     '''Given a fileending (e.g. '.txt') returns a list of possible file prefixes
     for the user to select'''
 
-    print 'Searching local directory for file prefixes'
+    print('Searching local directory for file prefixes')
     filechoices = glob.glob(fileending)
     filechoices = [choice.rstrip(fileending) for choice in filechoices]
 
     # Number of matches
     nmatch = len(filechoices)
 
-    print 'Detected ', nmatch, ' potential prefixes in this directory'
-    print 'Here are the options: '
+    print('Detected ', nmatch, ' potential prefixes in this directory')
+    print('Here are the options: ')
     for i in range (nmatch):
-        print '(',i+1,'): ', filechoices[i]
+        print('(',i+1,'): ', filechoices[i])
         
-    if(nmatch>0): print 'If none of these files suit:'
-    print '(',nmatch+1,'):  Manually enter a filename'
+    if(nmatch>0): print('If none of these files suit:')
+    print('(',nmatch+1,'):  Manually enter a filename')
         
     userselect = input('Make a selection: ')
 
     if userselect==nmatch+1:
-        filename = raw_input('Manually enter filename: ')
+        filename = input('Manually enter filename: ')
     else:
         filename = filechoices[userselect-1]
 
-    print 'Prefix ',filename, ' selected'
+    print('Prefix ',filename, ' selected')
     return filename 
 
 
@@ -53,76 +53,76 @@ def find_local_input_files(stringmatch):
     '''Given a matching string (e.g. '*.txt') the function will create a list
     of matches for the user to select (or type in an alternative)'''
     
-    print 'Searching local directory for input files'
+    print('Searching local directory for input files')
     sleep(1.5)
     filechoices = glob.glob(stringmatch)
     
     # Number of matches
     nmatch = len(filechoices)
     
-    print 'Detected ', nmatch, ' potential inputfiles in this directory'
-    print 'Here are the options: '
+    print('Detected ', nmatch, ' potential inputfiles in this directory')
+    print('Here are the options: ')
     for i in range (nmatch):
-        print '(',i+1,'): ', filechoices[i]
+        print('(',i+1,'): ', filechoices[i])
         
-    if(nmatch>0): print 'If none of these files suit:'
-    print '(',nmatch+1,'):  Manually enter a filename'
+    if(nmatch>0): print('If none of these files suit:')
+    print ('(',nmatch+1,'):  Manually enter a filename')
     
     userselect = input('Make a selection: ')
     
     if userselect==nmatch+1:
-        filename = raw_input('Manually enter filename: ')
+        filename = input('Manually enter filename: ')
     else:
         filename = filechoices[userselect-1]
         
-    print 'File ',filename, ' selected for read-in'
+    print('File ',filename, ' selected for read-in')
     return filename 
 
 def find_sorted_local_input_files(stringmatch):
     '''Given a matching string (e.g. '*.txt') the function will create a sorted list of matches for the user to select (or type in an alternative)'''
     
-    print 'Searching local directory for input files'
+    print('Searching local directory for input files')
     sleep(1.5)
     filechoices = glob.glob(stringmatch)
     
     # Number of matches
     nmatch = len(filechoices)
     
-    print 'Detected ', nmatch, ' potential inputfiles in this directory'
+    print('Detected ', nmatch, ' potential inputfiles in this directory')
 
     # Sort using Natural sort (see function at top)
     sort_nicely(filechoices)
 
-    print 'Here are the options: '
+    print('Here are the options: ')
     for i in range (nmatch):
-        print '(',i+1,'): ', filechoices[i]
+        print('(',i+1,'): ', filechoices[i])
         
     if(nmatch>0): print 'If none of these files suit:'
-    print '(',nmatch+1,'):  Manually enter a filename'
+    print('(',nmatch+1,'):  Manually enter a filename')
     
     userselect = input('Make a selection: ')
     
     if userselect==nmatch+1:
-        filename = raw_input('Manually enter filename: ')
+        filename = input('Manually enter filename: ')
     else:
         filename = filechoices[userselect-1]
         
-    print 'File ',filename, ' selected for read-in'
+    print('File ',filename, ' selected for read-in')
     return filename 
 
 def find_local_input_fileset(stringmatch):
     '''Given a matching string (e.g. '*.txt') the function will create a list
     of all matches '''
     
-    print 'Searching local directory for input files'
+    print('Searching local directory for input files')
     filechoices = glob.glob(stringmatch)
     
     # Number of matches
     nmatch = len(filechoices)
     
-    print 'Detected ', nmatch, ' potential inputfiles in this directory'    
+    print('Detected ', nmatch, ' potential inputfiles in this directory')    
     for i in range (nmatch):
-        print '(',i+1,'): ', filechoices[i]
+        print('(',i+1,'): ', filechoices[i])
         
     return filechoices
 
@@ -138,10 +138,10 @@ def find_sorted_local_input_fileset(stringmatch):
     # Sort using Natural sort (see function at top)
     sort_nicely(filechoices)
     for i in range (nmatch):
-        print '(',i+1,'): ', filechoices[i]
+        print('(',i+1,'): ', filechoices[i])
     
     
-    print 'Detected ', nmatch, ' potential inputfiles in this directory'    
+    print('Detected ', nmatch, ' potential inputfiles in this directory')    
     
     
     return filechoices
@@ -151,10 +151,10 @@ def decide_local_output_file(inputfile, stringmatch,fileformat='ps'):
     '''Given a matching string, the function gives a list of existing
     output files to write over, or allows an alternative to be entered)'''
     
-    print 'Searching local directory for possible output filenames'
+    print('Searching local directory for possible output filenames')
     filechoices = glob.glob(stringmatch)
     
-    print 'Creating default outputfile name'
+    print('Creating default outputfile name')
     defaultfile = inputfile.rsplit('.',1)[0]
     defaultfile = defaultfile +'.'+fileformat
     
@@ -163,25 +163,25 @@ def decide_local_output_file(inputfile, stringmatch,fileformat='ps'):
     # Number of matches
     nmatch = len(filechoices)
     
-    print 'Detected ', nmatch, ' potential output files to overwrite in this directory'
-    print 'Here are the options: '
+    print('Detected ', nmatch, ' potential output files to overwrite in this directory')
+    print('Here are the options: ')
     for i in range (nmatch):
         if(i==0): 
-            print 'Default (',i+1,'): ', filechoices[i]
+            print('Default (',i+1,'): ', filechoices[i])
         else: 
-            print '(',i+1,'): ', filechoices[i]
+            print('(',i+1,'): ', filechoices[i])
         
-    if(nmatch>0): print 'If you wish to create a new file: '
-    print '(',nmatch+1,'):  Manually enter a filename'
+    if(nmatch>0): print('If you wish to create a new file: ')
+    print('(',nmatch+1,'):  Manually enter a filename')
     
     userselect = input('Make a selection: ')
     
     if userselect==nmatch+1:
-        filename = raw_input('Manually enter filename: ')
+        filename = input('Manually enter filename: ')
     else:
         filename = filechoices[userselect-1]
         
-    print 'File ',filename, ' selected for output'
+    print('File ',filename, ' selected for output')
     return filename 
 
 
