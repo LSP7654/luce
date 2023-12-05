@@ -1,12 +1,12 @@
 ParType Orbital
 NBodyOutput test.nbody
-SnapshotTime	0.01
-MaximumTime	1.0
+SnapshotTime	1.0e-2
+MaximumTime 1.0
 NLambda		100
 NLatitude	100
 NLongitude 	100
 FullOutput F
-SystemName test
+SystemName solarsys
 Number_Bodies 2
 --
 BodyName Sun

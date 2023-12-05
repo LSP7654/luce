@@ -31,13 +31,13 @@ int main(int argc, char* argv[])
     double G = Gmau;
     double unit2sec = year/twopi;
 
-    int i=0, fileType=0, nTime=0;
+    int i, fileType, nTime;
     int snapshotNumber=0;
 
-    double tStop=0.0;
-    double timeunit=0.0,timeyr=0.0;
-    double dtyr=0.0,dtunit=0.0, dtflux=0.0;
-    double tSnap=0.0, tMax=0.0, dtmax=0.0;
+    double tStop;
+    double timeunit,timeyr;
+    double dtyr,dtunit, dtflux;
+    double tSnap, tMax, dtmax;
 
 
     Vector3D body_i_position;
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
     vector<Body*> Bodies;
 
     parFile input;
-    FILE * outputfile=0;
+    FILE * outputfile;
         
         
         printf("  \n");

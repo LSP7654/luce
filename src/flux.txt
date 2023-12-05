@@ -1,0 +1,114 @@
+PlanetSurface.cpp:	fluxmax = 0.0;
+PlanetSurface.cpp:	fluxmax = 0.0;
+PlanetSurface.cpp:	fluxmax = 0.0;
+PlanetSurface.cpp:    fluxmax = 0.0;
+PlanetSurface.cpp:			fluxtot[j][k] = 0.0;
+PlanetSurface.cpp:			integratedflux[j][k] = 0.0;
+PlanetSurface.cpp:				flux[istar][j][k] = 0.0;
+PlanetSurface.cpp:	 * This resets the flux arrays so they can be used in the next timestep
+PlanetSurface.cpp:			fluxtot[j][k] = 0.0;
+PlanetSurface.cpp:				flux[istar][j][k] = 0.0;
+PlanetSurface.cpp:	 * Writes a snapshot of the total flux to file
+PlanetSurface.cpp:	string snapshotFileName = prefixString+"_"+getName()+"_"+numString+".flux";
+PlanetSurface.cpp:	fluxFile = fopen(snapshotFileName.c_str(), "w");
+PlanetSurface.cpp:	fprintf(fluxFile, "%+.4E %i %i \n", time, nLatitude, nLongitude);
+PlanetSurface.cpp:			fprintf(fluxFile, "%+.4E %+.4E %+.4E %+.4E \n", longitude[j],
+PlanetSurface.cpp:					latitude[k], fluxtot[j][k], darkness[j][k]);
+PlanetSurface.cpp:	fflush(fluxFile);
+PlanetSurface.cpp:	fclose(fluxFile);
+PlanetSurface.cpp:					longitude[j], latitude[k], flux[istar][j][k],
+PlanetSurface.cpp:		    flux[istar][iLongPick][iLatPick],
+PlanetSurface.cpp:					latitude[k], integratedflux[j][k], darkness[j][k]);
+PlanetSurface.cpp:	 * Calculates the flux received from one star over the entire surface
+PlanetSurface.cpp:	double magpos, lstar, fluxtemp;
+PlanetSurface.cpp:shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
+PlanetSurface.cpp:shared(fluxsol,eclipseFraction,darkness,integratedflux,dt) \
+PlanetSurface.cpp:	private(k,s,fluxtemp) \
+PlanetSurface.cpp:	reduction(max: fluxmax)
+PlanetSurface.cpp:				// Calculate fluxes
+PlanetSurface.cpp:					fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
+PlanetSurface.cpp:				    fluxtemp = 0.0;
+PlanetSurface.cpp:				flux[istar][j][k] = fluxtemp * (1.0 - eclipseFraction) * fluxsol;
+PlanetSurface.cpp:				fluxtot[j][k] = fluxtot[j][k] + flux[istar][j][k];
+PlanetSurface.cpp:				if (fluxtot[j][k] > fluxmax) {
+PlanetSurface.cpp:					fluxmax = fluxtot[j][k];
+PlanetSurface.cpp:	 * Updates the darkness array based on the total flux received at a given timestep
+PlanetSurface.cpp:	shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
+PlanetSurface.cpp:	shared(fluxsol,eclipseFraction,darkness,integratedflux,dt) \
+PlanetSurface.cpp:		private(k,s,fluxtemp) \
+PlanetSurface.cpp:		reduction(max: fluxmax)
+PlanetSurface.cpp:				integratedflux[j][k] = integratedflux[j][k]
+PlanetSurface.cpp:						+ fluxtot[j][k] * dt;
+PlanetSurface.cpp:				// If flux zero, add to darkness counter
+PlanetSurface.cpp:				if (fluxtot[j][k] < 1.0e-6) {
+R_PlanetSurface.cpp:	fluxmax = 0.0;
+R_PlanetSurface.cpp:	fluxmax = 0.0;
+R_PlanetSurface.cpp:	fluxmax = 0.0;
+R_PlanetSurface.cpp:    fluxmax = 0.0;
+R_PlanetSurface.cpp:			fluxtot[j][k] = 0.0;
+R_PlanetSurface.cpp:			integratedflux[j][k] = 0.0;
+R_PlanetSurface.cpp:				flux[istar][j][k] = 0.0;
+R_PlanetSurface.cpp:	 * This resets the flux arrays so they can be used in the next timestep
+R_PlanetSurface.cpp:			fluxtot[j][k] = 0.0;
+R_PlanetSurface.cpp:				flux[istar][j][k] = 0.0;
+R_PlanetSurface.cpp:	 * Writes a snapshot of the total flux to file
+R_PlanetSurface.cpp:	string snapshotFileName = prefixString+"_"+getName()+"_"+numString+".flux";
+R_PlanetSurface.cpp:	fluxFile = fopen(snapshotFileName.c_str(), "w");
+R_PlanetSurface.cpp:	fprintf(fluxFile, "%+.4E %i %i \n", time, nLatitude, nLongitude);
+R_PlanetSurface.cpp:			fprintf(fluxFile, "%+.4E %+.4E %+.4E %+.4E \n", longitude[j],
+R_PlanetSurface.cpp:					latitude[k], fluxtot[j][k], darkness[j][k]);
+R_PlanetSurface.cpp:	fflush(fluxFile);
+R_PlanetSurface.cpp:	fclose(fluxFile);
+R_PlanetSurface.cpp:					longitude[j], latitude[k], flux[istar][j][k],
+R_PlanetSurface.cpp:		    flux[istar][iLongPick][iLatPick],
+R_PlanetSurface.cpp:					latitude[k], integratedflux[j][k], darkness[j][k]);
+R_PlanetSurface.cpp:	 * Calculates the flux received from one star over the entire surface
+R_PlanetSurface.cpp:	double magpos, lstar, fluxtemp;
+R_PlanetSurface.cpp:shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
+R_PlanetSurface.cpp:shared(fluxsol,eclipseFraction,darkness,integratedflux,dt) \
+R_PlanetSurface.cpp:	private(k,s,fluxtemp) \
+R_PlanetSurface.cpp:	reduction(max: fluxmax)
+R_PlanetSurface.cpp:				// Calculate fluxes
+R_PlanetSurface.cpp:					fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
+R_PlanetSurface.cpp:				    fluxtemp = 0.0;
+R_PlanetSurface.cpp:				flux[istar][j][k] = fluxtemp * (1.0 - eclipseFraction) * fluxsol;
+R_PlanetSurface.cpp:				fluxtot[j][k] = fluxtot[j][k] + flux[istar][j][k];
+R_PlanetSurface.cpp:				if (fluxtot[j][k] > fluxmax) {
+R_PlanetSurface.cpp:					fluxmax = fluxtot[j][k];
+R_PlanetSurface.cpp:	 * Updates the darkness array based on the total flux received at a given timestep
+R_PlanetSurface.cpp:	shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
+R_PlanetSurface.cpp:	shared(fluxsol,eclipseFraction,darkness,integratedflux,dt) \
+R_PlanetSurface.cpp:		private(k,s,fluxtemp) \
+R_PlanetSurface.cpp:		reduction(max: fluxmax)
+R_PlanetSurface.cpp:				integratedflux[j][k] = integratedflux[j][k]
+R_PlanetSurface.cpp:						+ fluxtot[j][k] * dt;
+R_PlanetSurface.cpp:				// If flux zero, add to darkness counter
+R_PlanetSurface.cpp:				if (fluxtot[j][k] < 1.0e-6) {
+R_Star.cpp:	// Calculate critical inner and outer HZ flux (in Solar Units)
+R_Star.cpp:	// Convert this flux into a distance
+R_System.cpp:        // and calculate the flux they emit onto its surface
+R_System.cpp:     * Method allows PlanetSurface Objects to call their flux calculation routines
+R_System.cpp:        // and calculate the flux they emit onto its surface
+R_System.cpp:                if(i==j) continue; // PlanetSurface can't emit flux onto itself
+R_System.cpp:     * Writes the integrated flux data to files
+R_System.cpp:     * Writes an info file for use in plotting 2D flux data
+Rmain.cpp: *	where some objects have surface flux patterns computed in tandem
+Rmain.cpp:    double dtyr,dtunit, dtflux;
+Rmain.cpp:        printf("\tLuce - 2D surface flux patterns on bodies inside an N Body integrator\n");
+Rmain.cpp:	dtflux = 0.0;
+Rmain.cpp:	    dtflux = dtflux + dtyr;
+Rmain.cpp:	nBodySystem.calc2DFlux(timeyr, dtflux);
+Star.cpp:	// Calculate critical inner and outer HZ flux (in Solar Units)
+Star.cpp:	// Convert this flux into a distance
+System.cpp:        // and calculate the flux they emit onto its surface
+System.cpp:     * Method allows PlanetSurface Objects to call their flux calculation routines
+System.cpp:        // and calculate the flux they emit onto its surface
+System.cpp:                if(i==j) continue; // PlanetSurface can't emit flux onto itself
+System.cpp:     * Writes the integrated flux data to files
+System.cpp:     * Writes an info file for use in plotting 2D flux data
+main.cpp: *	where some objects have surface flux patterns computed in tandem
+main.cpp:    double dtyr=0.0,dtunit=0.0, dtflux=0.0;
+main.cpp:        printf("\tLuce - 2D surface flux patterns on bodies inside an N Body integrator\n");
+main.cpp:	dtflux = 0.0;
+main.cpp:	    dtflux = dtflux + dtyr;
+main.cpp:	nBodySystem.calc2DFlux(timeyr, dtflux);

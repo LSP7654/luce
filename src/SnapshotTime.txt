@@ -1,0 +1,6 @@
+R_parFile.cpp:    checkDoubleValueDefined("SnapshotTime");
+R_parFile.cpp:    printf("Snapshot Time: %.1E years \n", doubleVariables["SnapshotTime"]);
+Rmain.cpp:        tSnap = input.getDoubleVariable("SnapshotTime");
+main.cpp:        tSnap = input.getDoubleVariable("SnapshotTime");
+parFile.cpp:    checkDoubleValueDefined("SnapshotTime");
+parFile.cpp:    printf("Snapshot Time: %.1E years \n", doubleVariables["SnapshotTime"]);
