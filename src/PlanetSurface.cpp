@@ -546,7 +546,9 @@ void PlanetSurface::writeIntegratedFile() {
 	fclose(integratedFile);
 }
 
-void PlanetSurface::calcAverageFlux(double &dt); {
+
+// Cass - this is where we are having problems.
+void PlanetSurface::calcAverageFlux(double &dt) {
 
 
 printf("Test");
