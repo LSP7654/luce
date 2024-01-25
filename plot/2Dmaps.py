@@ -46,12 +46,16 @@ for i in range(nfiles):
     #    num = "0"+num
     #    k+=1     
         
-    
-    inputfile = prefix +'_'+planetname+'_'+num+'.flux'
-
-    #inputfile = prefix +'_'+planetname+'.integrated'    
-    fluxfile = 'flux_'+prefix+'_'+planetname+'_'+num+'.png'    
+    ##For Total Flux Plots
+    #
+    #inputfile = prefix +'_'+planetname+'_'+num+'.flux'   
+    #fluxfile = 'flux_'+prefix+'_'+planetname+'_'+num+'.png'    
        
+    ##For Avg Flux Plots 
+    #Written 1/25/24 by LSP7654
+    inputfile = prefix +'_'+planetname+'_'+num+'.avg'
+    avgfluxfile = 'avgflux_'+prefix+'_'+planetname+'_'+num+'.png'
+
     # Read in header - time, position data etc
 
     f = open(inputfile, 'r')
@@ -88,7 +92,7 @@ for i in range(nfiles):
     
     latitude = data[:,latcol].reshape(nlat,nlong)*180.0/pi
     longitude= data[:,longcol].reshape(nlat,nlong)*180.0/pi
-    flux = data[:,fluxcol].reshape(nlat,nlong)
+    avgflux = data[:,fluxcol].reshape(nlat,nlong)
     darkness = data[:,darkcol].reshape(nlat,nlong)
 
     # Plot 2D maps of this timestep    
@@ -100,10 +104,10 @@ for i in range(nfiles):
     ax.set_xlabel('Longitude (degrees)')
     ax.set_ylabel('Latitude (degrees)')
     #vmax was set to fluxmax but I changed it
-    plt.pcolor(longitude,latitude,flux, cmap='Spectral')
+    plt.pcolor(longitude,latitude,avgflux, cmap='Spectral')
     plt.colorbar()
 
-    plt.savefig(fluxfile, format= 'png')
+    plt.savefig(avgfluxfile, format= 'png')
     plt.clf()
 
 # end of loop
@@ -116,8 +120,8 @@ convertcommand = '/opt/homebrew/Cellar/imagemagick/7.1.1-22/bin/convert '
 
 # Create movie if requested
 if(moviechoice=='y'):
-    print('Creating animated gif of flux pattern, filename fluxmovie.gif')
-    system(convertcommand +'-delay 10 flux_'+prefix+'*.png fluxmovie.gif')
+    print('Creating animated gif of avg flux pattern, filename avgfluxmovie.gif')
+    system(convertcommand +'-delay 10 avgflux_'+prefix+'*.png avgfluxmovie.gif')
 
     if(deletechoice=='y'):
         print('Deleting png files')
