@@ -16,7 +16,9 @@ VERSION = $(shell git describe --tags --abbrev=0)
 GIT_HASH = $(shell git describe --abbrev=9 --dirty --always)
 
 # Define compiler flags
-CFLAGS = -O3 -DVERSION=\"$(VERSION)\" -DGIT_HASH=\"${GIT_HASH}\" -std=c++11 -g
+#CFLAGS = -O3 -DVERSION=\"$(VERSION)\" -DGIT_HASH=\"${GIT_HASH}\" -std=c++11 
+CFLAGS = -DVERSION=\"$(VERSION)\" -DGIT_HASH=\"${GIT_HASH}\" -std=c++11 -ggdb -g3
+
 
 # Create object files:
 %.o: %.cpp

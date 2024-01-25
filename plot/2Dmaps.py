@@ -42,15 +42,15 @@ for i in range(nfiles):
     # Create filename - how many zeros needed?
     num = str(i+1)
     k=np.log10(i+1)
-    while (k<nzeros): 
-        num = "0"+num
-        k+=1     
+    #while (k<nzeros): 
+    #    num = "0"+num
+    #    k+=1     
         
     
-    inputfile = prefix +'_'+planetname+'.flux'
+    inputfile = prefix +'_'+planetname+'_'+num+'.flux'
 
     #inputfile = prefix +'_'+planetname+'.integrated'    
-    fluxfile = 'flux_'+prefix+'_'+planetname+'.'+num+'.png'    
+    fluxfile = 'flux_'+prefix+'_'+planetname+'_'+num+'.png'    
        
     # Read in header - time, position data etc
 
@@ -61,10 +61,11 @@ for i in range(nfiles):
    # numbers = split(line)
     numbers=line.split() 
 
-    #print(inputfile)
-    #print(numbers)
-    #print(numbers[1])
-    #print(numbers[2])
+    print(line.split())
+    print(inputfile)
+    print(numbers)
+    print(numbers[1])
+    print(numbers[2])
 	
     time=float(numbers[0])
     nlat = int(numbers[1])
@@ -110,7 +111,7 @@ for i in range(nfiles):
 
 # Command for converting images into gifs - machine dependent
 
-convertcommand = '/opt/ImageMagick/bin/convert '
+convertcommand = '/opt/homebrew/Cellar/imagemagick/7.1.1-22/bin/convert '
 #convertcommand = '/usr/bin/convert '
 
 # Create movie if requested

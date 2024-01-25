@@ -69,11 +69,12 @@ public:
 	void calcIntegratedQuantities(double &dt);
 
 	void writeFluxFile(int &snapshotNumber, int &nTime, double &time,string prefixString);
-	//void writeFluxFile();
 	void writeSkyFile(FILE* outputSky, int &istar, double &time);
 	void writeToLocationFiles(double &time, vector<Body*> bodies);
 
 	void writeIntegratedFile();
+
+	void calcAverageFlux(double &dt);
 
 	void setHostBody(Body* bod){};
 
@@ -109,6 +110,8 @@ protected:
 	double fluxtot[nLongMax][nLatMax];
 	double integratedflux[nLongMax][nLatMax];
 	double darkness[nLongMax][nLatMax];
+
+	double fluxavg[nLongMax][nLatMax];
 
 	FILE *integratedFile, *fluxFile, *locationFile[nStarMax];
 

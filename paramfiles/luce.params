@@ -5,7 +5,7 @@ MaximumTime	1.0
 NLambda		100
 NLatitude	100
 NLongitude 	100
-FullOutput F
+FullOutput T
 SystemName test
 Number_Bodies 2
 --
@@ -28,7 +28,7 @@ BodyType PlanetSurface
 Mass 1.0e-6
 Radius 1.0e-4
 SemiMajorAxis 1.0  (AU)
-Eccentricity 0.3
+Eccentricity 0.0
 Inclination 0.0    (degrees)
 LongAscend 0.0     (degrees)
 Periapsis 0.0      (degrees)

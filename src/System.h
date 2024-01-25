@@ -56,7 +56,7 @@ public:
 
 	void setIllumination(bool illum){planetaryIlluminationOn = illum;}
 
-	void setFluxOutput(bool full){fullOutput = full;}
+	void setFluxOutput(bool full){FullOutput = full;}
 
 	// Standard cloning method
 	virtual System* Clone() { return new System(*this); }
@@ -138,7 +138,7 @@ protected:
 	Vector3D accelerationCOM; // Acceleration of the Centre of Mass
 
 	bool planetaryIlluminationOn;
-	bool fullOutput;
+	bool FullOutput;
 
 	FILE *infoFile;
 

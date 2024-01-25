@@ -1132,7 +1132,7 @@ void System::calc2DFlux(double &time, double &dt)
                 }
                 
             }
-            
+            //printf("Flux data here");
             bodies[j]->calcIntegratedQuantities(dt);
         }
         
@@ -1229,7 +1229,7 @@ void System::output2DFluxData(int &snapshotNumber, double &tSnap, string prefixS
         if(bodies[b]->getType()=="PlanetSurface")
         {
             
-            if(fullOutput){
+            if(FullOutput){ 
                 bodies[b]->writeFluxFile(snapshotNumber, nTime, tSnap, prefixString);
             }
             

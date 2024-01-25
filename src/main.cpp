@@ -90,7 +90,8 @@ int main(int argc, char* argv[])
         tSnap = input.getDoubleVariable("SnapshotTime");
         
         bool restart = input.getBoolVariable("Restart");
-        bool fullOutput = input.getBoolVariable("fullOutput");
+        bool FullOutput = input.getBoolVariable("FullOutput");
+        //bool fullOutput = true;
         string systemName = input.getStringVariable("SystemName");
         
 
@@ -174,9 +175,9 @@ int main(int argc, char* argv[])
 
 
     nBodySystem.initialise2DFluxOutput(systemName);
-    nBodySystem.setFluxOutput(fullOutput);
+    nBodySystem.setFluxOutput(FullOutput);
 
-    if(fullOutput)
+    if(FullOutput)
     {
     	printf("Run will produce full output \n");
     }
