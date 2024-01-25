@@ -1231,6 +1231,9 @@ void System::output2DFluxData(int &snapshotNumber, double &tSnap, string prefixS
             
             if(FullOutput){ 
                 bodies[b]->writeFluxFile(snapshotNumber, nTime, tSnap, prefixString);
+
+                //Written 1/25/24 by LSP7654
+                bodies[b]->writeAverageFile(snapshotNumber, nTime, tSnap, prefixString);
             }
             
             bodies[b]->writeToLocationFiles(tSnap, bodies);

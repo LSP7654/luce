@@ -189,14 +189,17 @@ public:
 	virtual void calcFlux(int &istar, Body* &star, double &eclipseFraction, double &time, double &dt){};
 	virtual void calcIntegratedQuantities(double &dt){};
 
+	//Written 1/25/24 by LSP7654
 	virtual void calcAverageFlux(double &dt){};
-
 
 	virtual void writeFluxFile(int &snapshotNumber, int &nTime, double &time, string prefixString){};
 	virtual void writeSkyFile(FILE* outputSky, int &istar, double &time){};
 	virtual void writeToLocationFiles(double &time, vector<Body*> bodies){};
 
 	virtual void writeIntegratedFile(){};
+
+	//Written 1/25/24 by LSP7654
+	virtual void writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString){};
 
 	// Variables that are part of the Body Class and its derivations //
 protected:

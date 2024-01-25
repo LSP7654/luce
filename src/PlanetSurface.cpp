@@ -127,6 +127,7 @@ void PlanetSurface::initialiseArrays() {
 		for (int k = 0; k < nLatitude; k++) {
 			fluxtot[j][k] = 0.0;
 			integratedflux[j][k] = 0.0;
+			avgflux[j][k] = 0.0;
 			darkness[j][k] = 0.0;
 
 		}
@@ -332,7 +333,7 @@ void PlanetSurface::calcFlux(int &istar, Body* &star, double &eclipseFraction,
 #pragma omp parallel default(none) \
 shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
 shared(noon,altitude,azimuth,time,obliquity,nStars) \
-shared(fluxsol,eclipseFraction,darkness,integratedflux,dt) \
+shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 	private(k,s,fluxtemp) \
 	reduction(max: fluxmax)
 	{
@@ -430,7 +431,7 @@ void PlanetSurface::calcIntegratedQuantities(double &dt) {
 #pragma omp parallel default(none) \
 	shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
 	shared(noon,altitude,azimuth,time,obliquity,nStars) \
-	shared(fluxsol,eclipseFraction,darkness,integratedflux,dt) \
+	shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 		private(k,s,fluxtemp) \
 		reduction(max: fluxmax)
 		{
@@ -549,34 +550,65 @@ void PlanetSurface::writeIntegratedFile() {
 
 // Cass - this is where we are having problems.
 void PlanetSurface::calcAverageFlux(double &dt) {
+	//Written 1/25/24 by LSP7654
+	//calculates Average Flux over time 
 
+
+	for (int j = 0; j < nLongitude; j++) {
+#pragma omp parallel default(none) \
+	shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
+	shared(noon,altitude,azimuth,time,obliquity,nStars) \
+	shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
+		private(k,s,fluxtemp) \
+		reduction(max: fluxmax)
+		{
+#pragma omp for schedule(runtime) ordered
+			for (int k = 0; k < nLatitude; k++) {
+
+				avgflux[j][k] = avgflux[j][k]
+						+ (fluxtot[j][k] * dt)/(integratedflux[j][k] * dt);
+
+				// If flux zero, add to darkness counter
+				if (fluxtot[j][k] < 1.0e-6) {
+
+					darkness[j][k] = darkness[j][k] + dt;
+				}
+			}
+		}
+	}
 
 printf("Test");
-
 
 }
 
 
+void PlanetSurface::writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString) {
+	//Written 1/25/24 by LSP7654
+	//writes a snapshot of the average flux to file
 
-// 	for (int j = 0; j < nLongitude; j++) {
-// #pragma omp parallel default(none) \
-// 	shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
-// 	shared(noon,altitude,azimuth,time,obliquity,nStars) \
-// 	shared(fluxsol,eclipseFraction,darkness,integratedflux,dt) \
-// 		private(k,s,fluxtemp) \
-// 		reduction(max: fluxmax)
-// 		{
-// #pragma omp for schedule(runtime) ordered
-// 			for (int k = 0; k < nLatitude; k++) {
+	ostringstream convert;
+	convert << snapshotNumber;
 
-// 				avgflux[j][k] = avgflux[j][k]
-// 						+ (fluxtot[j][k] * dt)/(integratedflux[j][k] * dt);
+	string numString = convert.str();
 
-// 				// If flux zero, add to darkness counter
-// 				if (fluxtot[j][k] < 1.0e-6) {
+	int nzeros =int(log10(nTime) + 1);
 
-// 					darkness[j][k] = darkness[j][k] + dt;
-// 				}
-// 			}
-// 		}
-// 	}
+	string snapshotFileName = prefixString+"_"+getName()+"_"+numString+".avg";
+
+	avgfluxFile = fopen(snapshotFileName.c_str(), "w");
+	if (avgfluxFile == NULL) {
+		perror("Failed: ");
+		return;
+	}
+
+	fprintf(avgfluxFile, "%+.4E %i %i \n", time, nLatitude, nLongitude);
+	for (int j = 0; j < nLongitude; j++) {
+		for (int k = 0; k < nLatitude; k++) {
+			fprintf(avgfluxFile, "%+.4E %+.4E %+.4E %+.4E \n", longitude[j],
+					latitude[k], avgflux[j][k], darkness[j][k]);
+		}
+	}
+	fflush(avgfluxFile);
+	fclose(avgfluxFile);
+
+}

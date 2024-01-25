@@ -75,6 +75,8 @@ public:
 	void writeIntegratedFile();
 
 	void calcAverageFlux(double &dt);
+	void writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString);
+	//void writeAvgFluxFile();
 
 	void setHostBody(Body* bod){};
 
@@ -109,11 +111,10 @@ protected:
 
 	double fluxtot[nLongMax][nLatMax];
 	double integratedflux[nLongMax][nLatMax];
+	double avgflux[nLongMax][nLatMax];
 	double darkness[nLongMax][nLatMax];
 
-	double fluxavg[nLongMax][nLatMax];
-
-	FILE *integratedFile, *fluxFile, *locationFile[nStarMax];
+	FILE *integratedFile, *fluxFile, *avgfluxFile, *locationFile[nStarMax];
 
 };
 
