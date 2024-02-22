@@ -22,6 +22,7 @@ PlanetSurface::PlanetSurface() :
 	Pspin = 1.0/year;
 	obliquity = 0.5123;
 	fluxmax = 0.0;
+	fluxmin = 1.0e50;
 
 	initialiseArrays();
 
@@ -40,6 +41,7 @@ PlanetSurface::PlanetSurface(string &namestring, double &m,
 	Pspin = spin;
 	obliquity = obliq;
 	fluxmax = 0.0;
+	fluxmin = 1.0e50;
 
 	initialiseArrays();
 
@@ -62,6 +64,7 @@ PlanetSurface::PlanetSurface(string &namestring, double &m,
 	Pspin = spin;
 	obliquity = obliq;
 	fluxmax = 0.0;
+	fluxmin = 1.0e50;
 
 	initialiseArrays();
 
@@ -82,6 +85,7 @@ Body(input,bodyIndex,G)
     Pspin = input.getDoubleVariable("RotationPeriod",bodyIndex)/yearInDays;
     obliquity = input.getDoubleVariable("Obliquity", bodyIndex);
     fluxmax = 0.0;
+	fluxmin = 1.0e50;
     
     initialiseArrays();
     
@@ -288,7 +292,8 @@ void PlanetSurface::calcFlux(int &istar, Body* &star, double &eclipseFraction,
 	pos = (starpos).relativeVector(planetpos);
 	magpos = pos.magVector();
 	unitpos = pos.unitVector();
-	lstar = star->getLuminosity();
+	lstar = 3.827e+26;
+	//lstar = star->getLuminosity();
 
 	// Declination of the Sun - angle between planet's position vector and equator (at noon)
 
@@ -335,7 +340,7 @@ shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
 shared(noon,altitude,azimuth,time,obliquity,nStars) \
 shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 	private(k,s,fluxtemp) \
-	reduction(max: fluxmax)
+	reduction(max: fluxmax, min: fluxmin) 
 	{
 #pragma omp for schedule(runtime) ordered
 
@@ -347,7 +352,13 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 						sin(latitude[k]) * sin(long_apparent),
 						cos(latitude[k]));
 
+				// Vector3D surface(cos(latitude[k]) * sin(longitude[j]),
+				// 		sin(latitude[k]) * sin(longitude[j]),
+				// 		cos(longitude[j]));
+
 				surface = surface.unitVector();
+
+				//cout << cos(latitude[k]) * sin(longitude[j]) << sin(latitude[k]) * sin(longitude[j]) << cos(longitude[j]) << endl;
 
 				// If necessary, rotate surface vector by obliquity
 
@@ -359,14 +370,19 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 
 				rdotn = unitpos.dotProduct(surface);
                 
+				//cout << "rdotn =" << rdotn << endl;
+
 				// Calculate fluxes
 				// if position.surface is less than zero, long/lat location is not illuminated
+				//srad = 1
+				//temp = 5700.0
+				//fluxtemp = (5.67e-8) * (0.99) * (2.0 * pi * 1 * 1) * (5700.0 * 5700.0 * 5700.0 * 5700.0) * rdotn / (4.0 * pi * magpos * magpos);
+				//fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
 
-                
 				if (rdotn > 0.0) {
 
 					fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
-
+					// note: only reciving light from one side of star... (2.0*pi) ?
 				}
 				else
 				    {
@@ -375,7 +391,9 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 
                 
 				flux[istar][j][k] = fluxtemp * (1.0 - eclipseFraction) * fluxsol;
-
+				//flux[istar][j][k] = fluxtemp * fluxsol;
+				//cout << eclipseFraction << endl;
+				
 				fluxtot[j][k] = fluxtot[j][k] + flux[istar][j][k];
 
 
@@ -383,6 +401,9 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 					fluxmax = fluxtot[j][k];
 				}
 
+				if (fluxtot[j][k] < fluxmin) {
+					fluxmin = fluxtot[j][k];
+				}
 				// Calculate altitude and azimuthal position on sky, and angular size
 				// Formulae not exactly as used normally
 				// As we measure latitudes from 0 to 180, not -90 to 90, some sines have become cosines, and vice versa
@@ -551,8 +572,7 @@ void PlanetSurface::writeIntegratedFile() {
 // Cass - this is where we are having problems.
 void PlanetSurface::calcAverageFlux(double &dt) {
 	//Written 1/25/24 by LSP7654
-	//calculates Average Flux over time 
-
+	//calculates Average Flux over time  
 
 	for (int j = 0; j < nLongitude; j++) {
 #pragma omp parallel default(none) \
@@ -565,19 +585,18 @@ void PlanetSurface::calcAverageFlux(double &dt) {
 #pragma omp for schedule(runtime) ordered
 			for (int k = 0; k < nLatitude; k++) {
 
+				// avgflux is going negative, it should never be negative.
 				avgflux[j][k] = avgflux[j][k]
-						+ (fluxtot[j][k] * dt)/(integratedflux[j][k] * dt);
+					+ (integratedflux[j][k])/(fluxtot[j][k] * dt);
 
 				// If flux zero, add to darkness counter
 				if (fluxtot[j][k] < 1.0e-6) {
-
 					darkness[j][k] = darkness[j][k] + dt;
 				}
+				
 			}
 		}
 	}
-
-printf("Test");
 
 }
 

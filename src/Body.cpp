@@ -271,6 +271,7 @@ void Body::calcEccentricity(double G, double totmass)
     magvel = velocity.magVector();
     vdotr = velocity.dotProduct(position);
 
+
     if (magpos == 0.0)
 	{
 	eccentricityVector = zerovector;

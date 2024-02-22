@@ -39,6 +39,7 @@ public:
 	int getLatPick(){return iLatPick;}
 
 	double getFluxMax(){return fluxmax;}
+	double getFluxMin(){return fluxmin;}
 
 	double getPSpin(){return Pspin;}
 	double getObliquity(){return obliquity;}
@@ -96,6 +97,7 @@ protected:
 	double Pspin;
 	double obliquity;
 	double fluxmax;
+	double fluxmin;
 	Body* hostBody;
 
 	double noon[nStarMax];

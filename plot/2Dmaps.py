@@ -27,6 +27,15 @@ planetname = "Earth"
 
 nfiles, nstars, starname, starradius, startemp, starcolor,fluxmax = infofile.read_infofile(prefix)
 
+# print(row.split(',')[0] row in infofile.read_infofile)
+# first_col = (int(row.split(',')[0]) for row in infofile.read_infofile(prefix))
+# fluxmin = fluxmax = next(first_col, None)
+# for i in first_col:
+#     if i < fluxmin:
+#         fluxmin = i
+#     elif i > fluxmax:
+#         fluxmax = i
+
 moviechoice = input("Make an animated gif at end? (y/n) ")
 deletechoice = 'n'
 if(moviechoice=='y'):
@@ -104,8 +113,14 @@ for i in range(nfiles):
     ax.set_xlabel('Longitude (degrees)')
     ax.set_ylabel('Latitude (degrees)')
     #vmax was set to fluxmax but I changed it
-    plt.pcolor(longitude,latitude,avgflux, cmap='Spectral')
-    plt.colorbar()
+    import matplotlib.colors as colors
+
+    fluxmin = avgflux.min()
+    #fluxmax = avgflux.max()
+    print("max =", fluxmax)
+    print("min =", fluxmin)
+    pcm = ax.pcolor(longitude,latitude,avgflux,norm=colors.LogNorm(vmin= fluxmin, vmax= fluxmax), cmap='Spectral')
+    fig1.colorbar(pcm)
 
     plt.savefig(avgfluxfile, format= 'png')
     plt.clf()

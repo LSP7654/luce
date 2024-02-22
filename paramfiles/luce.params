@@ -1,7 +1,7 @@
 ParType Orbital
 NBodyOutput test.nbody
-SnapshotTime	0.01
-MaximumTime	1.0
+SnapshotTime	0.002739
+MaximumTime	1.00
 NLambda		100
 NLatitude	100
 NLongitude 	100
