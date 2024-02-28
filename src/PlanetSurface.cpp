@@ -569,7 +569,6 @@ void PlanetSurface::writeIntegratedFile() {
 }
 
 
-// Cass - this is where we are having problems.
 void PlanetSurface::calcAverageFlux(double &dt) {
 	//Written 1/25/24 by LSP7654
 	//calculates Average Flux over time  
