@@ -1272,6 +1272,7 @@ void System::outputInfoFile(int nSnaps)
     infoFile = fopen(fileString.c_str(), "w");
     
     double globalFluxMax= 0.0;
+    double globalFluxMin= 1.0e50;
     int nStars = countStars();
     
     fprintf(infoFile,"%i \n", nSnaps);
@@ -1294,10 +1295,16 @@ void System::outputInfoFile(int nSnaps)
                 globalFluxMax = bodies[s]->getFluxMax();
             }
             
+            if (bodies[s]->getFluxMin() > globalFluxMin)
+            {
+                globalFluxMin = bodies[s]->getFluxMin();
+            }
+            
         }
     }
     
     fprintf(infoFile, "%+.4E \n", globalFluxMax);
+    fprintf(infoFile, "%+.4E \n", globalFluxMin);
     fclose(infoFile);
     
     

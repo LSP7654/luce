@@ -170,6 +170,7 @@ public:
 	virtual double getPSpin(){return -1.0;}
 	virtual double getObliquity(){return -1.0;}
 	virtual double getFluxMax(){return -1.0;}
+	virtual double getFluxMin(){return -1.0;}
 
 	virtual void setNLongitude(int nlong){}
 	virtual void setNLatitude(int nlat){}

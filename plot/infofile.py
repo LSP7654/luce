@@ -120,6 +120,7 @@ def read_infofile(prefix):
     
     line = f.readline()
     fluxmax = float(line)
+    fluxmin = float(line)
         
     f.close()
     
@@ -129,5 +130,6 @@ def read_infofile(prefix):
     print("Temperatures: ", startemp)
     print("Colours ", starcolor)
     print("Maximum Flux: ", fluxmax)
+    print("Minimum Flux: ", fluxmin)
     
-    return nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax
+    return nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin

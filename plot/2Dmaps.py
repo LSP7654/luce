@@ -25,7 +25,7 @@ darkcol = 3
 prefix = "test"
 planetname = "Earth"
 
-nfiles, nstars, starname, starradius, startemp, starcolor,fluxmax = infofile.read_infofile(prefix)
+nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin = infofile.read_infofile(prefix)
 
 # print(row.split(',')[0] row in infofile.read_infofile)
 # first_col = (int(row.split(',')[0]) for row in infofile.read_infofile(prefix))
@@ -115,7 +115,7 @@ for i in range(nfiles):
     #vmax was set to fluxmax but I changed it
     import matplotlib.colors as colors
 
-    fluxmin = avgflux.min()
+    #fluxmin = avgflux.min()
     #fluxmax = avgflux.max()
     print("max =", fluxmax)
     print("min =", fluxmin)

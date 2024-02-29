@@ -404,6 +404,8 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 				if (fluxtot[j][k] < fluxmin) {
 					fluxmin = fluxtot[j][k];
 				}
+				//cout << "minimum flux:" << fluxmin << endl;
+
 				// Calculate altitude and azimuthal position on sky, and angular size
 				// Formulae not exactly as used normally
 				// As we measure latitudes from 0 to 180, not -90 to 90, some sines have become cosines, and vice versa
@@ -589,7 +591,7 @@ void PlanetSurface::calcAverageFlux(double &dt) {
 					+ (integratedflux[j][k])/(fluxtot[j][k] * dt);
 
 				// If flux zero, add to darkness counter
-				if (fluxtot[j][k] < 1.0e-6) {
+				if (avgflux[j][k] < 1.0e-6) {
 					darkness[j][k] = darkness[j][k] + dt;
 				}
 				
