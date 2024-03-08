@@ -119,7 +119,8 @@ for i in range(nfiles):
     #fluxmax = avgflux.max()
     print("max =", fluxmax)
     print("min =", fluxmin)
-    pcm = ax.pcolor(longitude,latitude,avgflux,norm=colors.LogNorm(vmin= fluxmin, vmax= fluxmax), cmap='Spectral')
+    #pcm = ax.pcolor(longitude,latitude,avgflux,norm=colors.LogNorm(vmin= fluxmin, vmax= fluxmax), cmap='Spectral')
+    pcm = ax.pcolor(longitude,latitude,avgflux)
     fig1.colorbar(pcm)
 
     plt.savefig(avgfluxfile, format= 'png')

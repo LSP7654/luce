@@ -120,6 +120,8 @@ def read_infofile(prefix):
     
     line = f.readline()
     fluxmax = float(line)
+
+    line = f.readline()
     fluxmin = float(line)
         
     f.close()

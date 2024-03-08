@@ -1270,6 +1270,12 @@ void System::outputInfoFile(int nSnaps)
     
     string fileString = getName()+".info";
     infoFile = fopen(fileString.c_str(), "w");
+    if (NULL == infoFile) 
+    {
+        cout<< "Error opening File" << infoFile << endl;
+        return;
+    }
+
     
     double globalFluxMax= 0.0;
     double globalFluxMin= 1.0e50;
@@ -1295,7 +1301,7 @@ void System::outputInfoFile(int nSnaps)
                 globalFluxMax = bodies[s]->getFluxMax();
             }
             
-            if (bodies[s]->getFluxMin() > globalFluxMin)
+            if (bodies[s]->getFluxMin() < globalFluxMin)
             {
                 globalFluxMin = bodies[s]->getFluxMin();
             }
@@ -1303,8 +1309,10 @@ void System::outputInfoFile(int nSnaps)
         }
     }
     
-    fprintf(infoFile, "%+.4E \n", globalFluxMax);
-    fprintf(infoFile, "%+.4E \n", globalFluxMin);
+    fprintf(infoFile, "------%+.4E \n", globalFluxMax);
+    fprintf(infoFile, "------%+.4E \n", globalFluxMin);
+    printf("globalFluxMax: %+.4E \n", globalFluxMax);
+    printf("globalFluxMin: %+.4E \n", globalFluxMin);
     fclose(infoFile);
     
     

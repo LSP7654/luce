@@ -392,7 +392,7 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
                 
 				flux[istar][j][k] = fluxtemp * (1.0 - eclipseFraction) * fluxsol;
 				//flux[istar][j][k] = fluxtemp * fluxsol;
-				//cout << eclipseFraction << endl;
+				//cout << fluxtemp << endl;
 				
 				fluxtot[j][k] = fluxtot[j][k] + flux[istar][j][k];
 
