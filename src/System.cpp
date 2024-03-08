@@ -1261,7 +1261,6 @@ void System::outputIntegratedFluxData() {
 
 void System::outputInfoFile(int nSnaps)
 {
-    exit(0);
     
     /*
      * Written 17/12/14 by dh4gan
@@ -1270,7 +1269,6 @@ void System::outputInfoFile(int nSnaps)
      */
     
     string fileString = getName()+".info";
-    cout << "outputInfoFile: " << infoFile << endl;
     infoFile = fopen(fileString.c_str(), "w");
     if (NULL == infoFile) 
     {
@@ -1311,8 +1309,8 @@ void System::outputInfoFile(int nSnaps)
         }
     }
     
-    fprintf(infoFile, "------%+.4E \n", globalFluxMax);
-    fprintf(infoFile, "------%+.4E \n", globalFluxMin);
+    fprintf(infoFile, "%+.4E \n", globalFluxMax);
+    fprintf(infoFile, "%+.4E \n", globalFluxMin);
     printf("globalFluxMax: %+.4E \n", globalFluxMax);
     printf("globalFluxMin: %+.4E \n", globalFluxMin);
     fclose(infoFile);
