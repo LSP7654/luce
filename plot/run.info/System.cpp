@@ -1261,6 +1261,7 @@ void System::outputIntegratedFluxData() {
 
 void System::outputInfoFile(int nSnaps)
 {
+    exit(0);
     
     /*
      * Written 17/12/14 by dh4gan
@@ -1269,10 +1270,11 @@ void System::outputInfoFile(int nSnaps)
      */
     
     string fileString = getName()+".info";
+    cout << "outputInfoFile: " << infoFile << endl;
     infoFile = fopen(fileString.c_str(), "w");
     if (NULL == infoFile) 
     {
-        cout<< "Error opening File" << infoFile << endl;
+        cout << "Error opening File" << infoFile << endl;
         return;
     }
 
