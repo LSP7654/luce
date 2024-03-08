@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
         
         bool restart = input.getBoolVariable("Restart");
         bool FullOutput = input.getBoolVariable("FullOutput");
-        //bool fullOutput = true;
+//bool fullOutput = true;
         string systemName = input.getStringVariable("SystemName");
         
 

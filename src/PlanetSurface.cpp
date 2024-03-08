@@ -131,7 +131,7 @@ void PlanetSurface::initialiseArrays() {
 		for (int k = 0; k < nLatitude; k++) {
 			fluxtot[j][k] = 0.0;
 			integratedflux[j][k] = 0.0;
-			avgflux[j][k] = 0.0;
+avgflux[j][k] = 0.0;
 			darkness[j][k] = 0.0;
 
 		}
@@ -183,8 +183,6 @@ void PlanetSurface::initialiseOutputVariables(string prefixString, vector<Body*>
 
 	fileString = prefixString+"_"+getName()+".integrated";
 	integratedFile = fopen(fileString.c_str(),"w");
-	//fileString = prefixString+"_"+getName()+".flux";
-	//fluxFile = fopen(fileString.c_str(),"w");
 
 }
 
@@ -340,7 +338,7 @@ shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
 shared(noon,altitude,azimuth,time,obliquity,nStars) \
 shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 	private(k,s,fluxtemp) \
-	reduction(max: fluxmax, min: fluxmin) 
+	reduction(max: fluxmax, min: fluxmin)
 	{
 #pragma omp for schedule(runtime) ordered
 
@@ -352,13 +350,8 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 						sin(latitude[k]) * sin(long_apparent),
 						cos(latitude[k]));
 
-				// Vector3D surface(cos(latitude[k]) * sin(longitude[j]),
-				// 		sin(latitude[k]) * sin(longitude[j]),
-				// 		cos(longitude[j]));
 
 				surface = surface.unitVector();
-
-				//cout << cos(latitude[k]) * sin(longitude[j]) << sin(latitude[k]) * sin(longitude[j]) << cos(longitude[j]) << endl;
 
 				// If necessary, rotate surface vector by obliquity
 
@@ -369,20 +362,20 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 				// take the dot product with the unit position vector
 
 				rdotn = unitpos.dotProduct(surface);
-                
-				//cout << "rdotn =" << rdotn << endl;
 
+				//cout << "rdotn =" << rdotn << endl;
+                
 				// Calculate fluxes
 				// if position.surface is less than zero, long/lat location is not illuminated
-				//srad = 1
+//srad = 1
 				//temp = 5700.0
 				//fluxtemp = (5.67e-8) * (0.99) * (2.0 * pi * 1 * 1) * (5700.0 * 5700.0 * 5700.0 * 5700.0) * rdotn / (4.0 * pi * magpos * magpos);
 				//fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
-
+                
 				if (rdotn > 0.0) {
 
 					fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
-					// note: only reciving light from one side of star... (2.0*pi) ?
+// note: only reciving light from one side of star... (2.0*pi) ?
 				}
 				else
 				    {
@@ -391,9 +384,9 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 
                 
 				flux[istar][j][k] = fluxtemp * (1.0 - eclipseFraction) * fluxsol;
-				//flux[istar][j][k] = fluxtemp * fluxsol;
+//flux[istar][j][k] = fluxtemp * fluxsol;
 				//cout << fluxtemp << endl;
-				
+
 				fluxtot[j][k] = fluxtot[j][k] + flux[istar][j][k];
 
 

@@ -170,6 +170,7 @@ public:
 	virtual double getPSpin(){return -1.0;}
 	virtual double getObliquity(){return -1.0;}
 	virtual double getFluxMax(){return -1.0;}
+	virtual double getFluxMin(){return -1.0;}
 
 	virtual void setNLongitude(int nlong){}
 	virtual void setNLatitude(int nlat){}
@@ -189,7 +190,7 @@ public:
 	virtual void calcFlux(int &istar, Body* &star, double &eclipseFraction, double &time, double &dt){};
 	virtual void calcIntegratedQuantities(double &dt){};
 
-	//Written 1/25/24 by LSP7654
+//Written 1/25/24 by LSP7654
 	virtual void calcAverageFlux(double &dt){};
 
 	virtual void writeFluxFile(int &snapshotNumber, int &nTime, double &time, string prefixString){};

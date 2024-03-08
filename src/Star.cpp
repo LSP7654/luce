@@ -124,12 +124,15 @@ Star::~Star() {
 void Star::calcLuminosityStefanBoltzmann()
     {
 
-    // double radstarSI = radius*rsol;
+    double radstarSI = radius*rsol;
+    luminosity = 4.0*pi*radstarSI*radstarSI*stefan*Teff*Teff*Teff*Teff;
+    luminosity = luminosity/lsol;
+	 // double radstarSI = radius*rsol;
     // luminosity = 4.0*pi*radstarSI*radstarSI*stefan*Teff*Teff*Teff*Teff;
     // luminosity = luminosity/lsol;
 	//luminosity = 4.0*pi*rsol*rsol*stefan*Teff*Teff*Teff*Teff;
-	luminosity = 3.827e+26;
-	cout << "Lum =" << luminosity << endl;
+	//luminosity = 3.827e+26;
+	//cout << "Lum =" << luminosity << endl;
     }
 
 

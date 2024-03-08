@@ -1132,7 +1132,7 @@ void System::calc2DFlux(double &time, double &dt)
                 }
                 
             }
-            //printf("Flux data here");
+            
             bodies[j]->calcIntegratedQuantities(dt);
         }
         
@@ -1229,11 +1229,8 @@ void System::output2DFluxData(int &snapshotNumber, double &tSnap, string prefixS
         if(bodies[b]->getType()=="PlanetSurface")
         {
             
-            if(FullOutput){ 
+            if(FullOutput){
                 bodies[b]->writeFluxFile(snapshotNumber, nTime, tSnap, prefixString);
-
-                //Written 1/25/24 by LSP7654
-                bodies[b]->writeAverageFile(snapshotNumber, nTime, tSnap, prefixString);
             }
             
             bodies[b]->writeToLocationFiles(tSnap, bodies);
@@ -1264,6 +1261,7 @@ void System::outputIntegratedFluxData() {
 
 void System::outputInfoFile(int nSnaps)
 {
+    exit(0);
     
     /*
      * Written 17/12/14 by dh4gan
@@ -1272,9 +1270,17 @@ void System::outputInfoFile(int nSnaps)
      */
     
     string fileString = getName()+".info";
+    cout << "outputInfoFile: " << infoFile << endl;
     infoFile = fopen(fileString.c_str(), "w");
+    if (NULL == infoFile) 
+    {
+        cout << "Error opening File" << infoFile << endl;
+        return;
+    }
+
     
     double globalFluxMax= 0.0;
+    double globalFluxMin= 1.0e50;
     int nStars = countStars();
     
     fprintf(infoFile,"%i \n", nSnaps);
@@ -1297,10 +1303,18 @@ void System::outputInfoFile(int nSnaps)
                 globalFluxMax = bodies[s]->getFluxMax();
             }
             
+            if (bodies[s]->getFluxMin() < globalFluxMin)
+            {
+                globalFluxMin = bodies[s]->getFluxMin();
+            }
+            
         }
     }
     
-    fprintf(infoFile, "%+.4E \n", globalFluxMax);
+    fprintf(infoFile, "------%+.4E \n", globalFluxMax);
+    fprintf(infoFile, "------%+.4E \n", globalFluxMin);
+    printf("globalFluxMax: %+.4E \n", globalFluxMax);
+    printf("globalFluxMin: %+.4E \n", globalFluxMin);
     fclose(infoFile);
     
     
