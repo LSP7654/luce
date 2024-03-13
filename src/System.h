@@ -96,7 +96,7 @@ public:
 	void evolveSystem(double dt);
 
 	void calcLongitudesOfNoon();
-	void calc2DFlux(double &time, double &dt);
+	void calc2DFlux(int snapshotNumber, double &time, double &dt);
 
 
 	// Output Methods

@@ -203,42 +203,42 @@ int main(int argc, char* argv[])
     printf("System set up: Running \n");
     while (timeunit < tMax)
 	{
-	tStop = timeunit + tSnap;
+	    tStop = timeunit + tSnap;
 
-	dtflux = 0.0;
+	    dtflux = 0.0;
 
-	while (timeunit < tStop)
+	    while (timeunit < tStop)
 	    {
 
-	    // Evolve the NBody particles for the minimum timestep in code units
-	    nBodySystem.evolveSystem(dtunit);
+	        // Evolve the NBody particles for the minimum timestep in code units
+	        nBodySystem.evolveSystem(dtunit);
 
-	    timeunit = timeunit + dtunit;
-	    dtflux = dtflux + dtyr;
+	        timeunit = timeunit + dtunit;
+	        dtflux = dtflux + dtyr;
 
-	    // Recalculate the minimum timestep
-	    nBodySystem.calcNBodyTimestep(dtmax);
+	        // Recalculate the minimum timestep
+	        nBodySystem.calcNBodyTimestep(dtmax);
         
-	    dtunit = nBodySystem.getTimestep();
-	    timeyr = timeunit/twopi;
-	    dtyr = dtunit/twopi;
+	        dtunit = nBodySystem.getTimestep();
+	        timeyr = timeunit/twopi;
+	        dtyr = dtunit/twopi;
 
 	    }
 
-	printf("Time: %+.4E yr, N-Body Timestep: %+.4E years, %+.4E units\n",timeyr, dtyr, dtunit);
+	    printf("Time: %+.4E yr, N-Body Timestep: %+.4E years, %+.4E units\n",timeyr, dtyr, dtunit);
 
-	// Calculate 2D Fluxes
-	nBodySystem.calc2DFlux(timeyr, dtflux);
+	    // Calculate 2D Fluxes
+	    nBodySystem.calc2DFlux(snapshotNumber, timeyr, dtflux);
 
-	// Output data to files
-	snapshotNumber++;
-	timeyr = timeunit/twopi;
+	    // Output data to files
+	    snapshotNumber++;
+	    timeyr = timeunit/twopi;
 
-	// N Body data goes to a single file
-	nBodySystem.outputNBodyData(outputfile, timeyr, orbitCentre);
+	    // N Body data goes to a single file
+	    nBodySystem.outputNBodyData(outputfile, timeyr, orbitCentre);
 
-	// 2D Flux data goes to separate files for each World in the System
-	nBodySystem.output2DFluxData(snapshotNumber, timeyr, systemName);
+	    // 2D Flux data goes to separate files for each World in the System
+	    nBodySystem.output2DFluxData(snapshotNumber, timeyr, systemName);
 
 	}
 
@@ -249,6 +249,8 @@ int main(int argc, char* argv[])
     // Write integrated Data to files
 
     nBodySystem.outputIntegratedFluxData();
+    //to do...
+    //nBodySystem.outputAvgFluxData(snapshotNumber);
     nBodySystem.outputInfoFile(snapshotNumber);
         
     // Simulation has now ended

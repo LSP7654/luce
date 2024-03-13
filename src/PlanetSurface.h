@@ -75,8 +75,8 @@ public:
 
 	void writeIntegratedFile();
 
-	void calcAverageFlux(double &dt);
-	void writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString);
+	void calcAverageFlux(int snapshotNumber, double &dt);
+	//void writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString);
 	//void writeAvgFluxFile();
 
 	void setHostBody(Body* bod){};

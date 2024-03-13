@@ -1094,7 +1094,7 @@ void System::calcLongitudesOfNoon()
     
 }
 
-void System::calc2DFlux(double &time, double &dt)
+void System::calc2DFlux(int snapshotNumber, double &time, double &dt)
 {
     /*
      * Written 11/12/14 by dh4gan
@@ -1134,6 +1134,7 @@ void System::calc2DFlux(double &time, double &dt)
             }
             
             bodies[j]->calcIntegratedQuantities(dt);
+            bodies[j]->calcAverageFlux(snapshotNumber, dt);
         }
         
     }

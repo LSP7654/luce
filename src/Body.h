@@ -191,7 +191,8 @@ public:
 	virtual void calcIntegratedQuantities(double &dt){};
 
 //Written 1/25/24 by LSP7654
-	virtual void calcAverageFlux(double &dt){};
+	//Updated 3/12/24
+	virtual void calcAverageFlux(int snapshotNumber, double &dt){};
 
 	virtual void writeFluxFile(int &snapshotNumber, int &nTime, double &time, string prefixString){};
 	virtual void writeSkyFile(FILE* outputSky, int &istar, double &time){};

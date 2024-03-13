@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <sstream>
+#include <stdlib.h>
 
 
 
@@ -131,7 +132,7 @@ void PlanetSurface::initialiseArrays() {
 		for (int k = 0; k < nLatitude; k++) {
 			fluxtot[j][k] = 0.0;
 			integratedflux[j][k] = 0.0;
-avgflux[j][k] = 0.0;
+			avgflux[j][k] = 0.0;
 			darkness[j][k] = 0.0;
 
 		}
@@ -361,13 +362,15 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 
 				// take the dot product with the unit position vector
 
-				rdotn = unitpos.dotProduct(surface);
+				//rdotn = unitpos.dotProduct(surface);
+				//rdotn = norm(surface);
+				rdotn = rand();
 
 				//cout << "rdotn =" << rdotn << endl;
                 
 				// Calculate fluxes
 				// if position.surface is less than zero, long/lat location is not illuminated
-//srad = 1
+				//srad = 1
 				//temp = 5700.0
 				//fluxtemp = (5.67e-8) * (0.99) * (2.0 * pi * 1 * 1) * (5700.0 * 5700.0 * 5700.0 * 5700.0) * rdotn / (4.0 * pi * magpos * magpos);
 				//fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
@@ -375,16 +378,16 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 				if (rdotn > 0.0) {
 
 					fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
-// note: only reciving light from one side of star... (2.0*pi) ?
+					// note: only reciving light from one side of star... (2.0*pi) ?
 				}
 				else
 				    {
-				    fluxtemp = 0.0;
+				    fluxtemp = 500.0;
 				    }
 
                 
 				flux[istar][j][k] = fluxtemp * (1.0 - eclipseFraction) * fluxsol;
-//flux[istar][j][k] = fluxtemp * fluxsol;
+				//flux[istar][j][k] = fluxtemp * fluxsol;
 				//cout << fluxtemp << endl;
 
 				fluxtot[j][k] = fluxtot[j][k] + flux[istar][j][k];
@@ -564,8 +567,9 @@ void PlanetSurface::writeIntegratedFile() {
 }
 
 
-void PlanetSurface::calcAverageFlux(double &dt) {
+void PlanetSurface::calcAverageFlux(int snapshotNumber, double &dt) {
 	//Written 1/25/24 by LSP7654
+		//Updated 3/12/24
 	//calculates Average Flux over time  
 
 	for (int j = 0; j < nLongitude; j++) {
@@ -579,14 +583,18 @@ void PlanetSurface::calcAverageFlux(double &dt) {
 #pragma omp for schedule(runtime) ordered
 			for (int k = 0; k < nLatitude; k++) {
 
-				// avgflux is going negative, it should never be negative.
-				avgflux[j][k] = avgflux[j][k]
-					+ (integratedflux[j][k])/(fluxtot[j][k] * dt);
-
-				// If flux zero, add to darkness counter
-				if (avgflux[j][k] < 1.0e-6) {
-					darkness[j][k] = darkness[j][k] + dt;
+				if (snapshotNumber == 0) {
+					avgflux[j][k] = fluxtot[j][k];
 				}
+				else {
+					avgflux[j][k] = ((avgflux[j][k] * (snapshotNumber - 1)) + fluxtot[j][k])/(snapshotNumber);
+				}
+
+				cout << avgflux[j][k] << endl;
+				// //If flux zero, add to darkness counter
+				// if (avgflux[j][k] < 1.0e-6) {
+				// 	darkness[j][k] = darkness[j][k] + dt;
+				// }
 				
 			}
 		}
@@ -595,33 +603,33 @@ void PlanetSurface::calcAverageFlux(double &dt) {
 }
 
 
-void PlanetSurface::writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString) {
-	//Written 1/25/24 by LSP7654
-	//writes a snapshot of the average flux to file
+// void PlanetSurface::writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString) {
+// 	//Written 1/25/24 by LSP7654
+// 	//writes a snapshot of the average flux to file
 
-	ostringstream convert;
-	convert << snapshotNumber;
+// 	ostringstream convert;
+// 	convert << snapshotNumber;
 
-	string numString = convert.str();
+// 	string numString = convert.str();
 
-	int nzeros =int(log10(nTime) + 1);
+// 	int nzeros =int(log10(nTime) + 1);
 
-	string snapshotFileName = prefixString+"_"+getName()+"_"+numString+".avg";
+// 	string snapshotFileName = prefixString+"_"+getName()+"_"+numString+".avg";
 
-	avgfluxFile = fopen(snapshotFileName.c_str(), "w");
-	if (avgfluxFile == NULL) {
-		perror("Failed: ");
-		return;
-	}
+// 	avgfluxFile = fopen(snapshotFileName.c_str(), "w");
+// 	if (avgfluxFile == NULL) {
+// 		perror("Failed: ");
+// 		return;
+// 	}
 
-	fprintf(avgfluxFile, "%+.4E %i %i \n", time, nLatitude, nLongitude);
-	for (int j = 0; j < nLongitude; j++) {
-		for (int k = 0; k < nLatitude; k++) {
-			fprintf(avgfluxFile, "%+.4E %+.4E %+.4E %+.4E \n", longitude[j],
-					latitude[k], avgflux[j][k], darkness[j][k]);
-		}
-	}
-	fflush(avgfluxFile);
-	fclose(avgfluxFile);
+// 	fprintf(avgfluxFile, "%+.4E %i %i \n", time, nLatitude, nLongitude);
+// 	for (int j = 0; j < nLongitude; j++) {
+// 		for (int k = 0; k < nLatitude; k++) {
+// 			fprintf(avgfluxFile, "%+.4E %+.4E %+.4E %+.4E \n", longitude[j],
+// 					latitude[k], avgflux[j][k], darkness[j][k]);
+// 		}
+// 	}
+// 	fflush(avgfluxFile);
+// 	fclose(avgfluxFile);
 
-}
+// }

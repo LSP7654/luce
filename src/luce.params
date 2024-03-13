@@ -5,7 +5,7 @@ MaximumTime	1.0
 NLambda		100
 NLatitude	100
 NLongitude 	100
-FullOutput F
+FullOutput T
 SystemName test
 Number_Bodies 2
 --
