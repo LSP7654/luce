@@ -184,6 +184,7 @@ void PlanetSurface::initialiseOutputVariables(string prefixString, vector<Body*>
 
 	fileString = prefixString+"_"+getName()+".integrated";
 	integratedFile = fopen(fileString.c_str(),"w");
+	avgfluxFile = fopen(string(prefixString+"_"+getName()+".avg").c_str(),"w");
 
 }
 
@@ -590,7 +591,7 @@ void PlanetSurface::calcAverageFlux(int snapshotNumber, double &dt) {
 					avgflux[j][k] = ((avgflux[j][k] * (snapshotNumber - 1)) + fluxtot[j][k])/(snapshotNumber);
 				}
 
-				cout << avgflux[j][k] << endl;
+				//cout << avgflux[j][k] << endl;
 				// //If flux zero, add to darkness counter
 				// if (avgflux[j][k] < 1.0e-6) {
 				// 	darkness[j][k] = darkness[j][k] + dt;
@@ -601,6 +602,21 @@ void PlanetSurface::calcAverageFlux(int snapshotNumber, double &dt) {
 	}
 
 }
+
+void PlanetSurface::writeAverageFile() {
+
+	fprintf(avgfluxFile, "%i %i \n", nLatitude, nLongitude);
+
+	for (int j = 0; j < nLongitude; j++) {
+		for (int k = 0; k < nLatitude; k++) {
+			fprintf(avgfluxFile, "%+.4E  %+.4E  %+.4E  %+.4E \n", longitude[j],
+					latitude[k], avgflux[j][k], darkness[j][k]);
+		}
+	}
+	fflush(avgfluxFile);
+	fclose(avgfluxFile);
+}
+
 
 
 // void PlanetSurface::writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString) {

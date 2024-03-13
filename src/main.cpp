@@ -248,7 +248,7 @@ int main(int argc, char* argv[])
 
     // Write integrated Data to files
 
-    nBodySystem.outputIntegratedFluxData();
+    nBodySystem.outputSummaryFluxData();
     //to do...
     //nBodySystem.outputAvgFluxData(snapshotNumber);
     nBodySystem.outputInfoFile(snapshotNumber);

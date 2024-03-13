@@ -104,7 +104,7 @@ public:
 	void initialise2DFluxOutput(string prefixString);
 	void outputNBodyData(FILE* outputfile, double &time, vector<int>orbitCentre);
 	void output2DFluxData(int &snapshotNumber, double &tSnap, string prefixString);
-	void outputIntegratedFluxData();
+	void outputSummaryFluxData();
 	void outputInfoFile(int nSnaps);
 
 protected:

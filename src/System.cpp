@@ -1232,7 +1232,7 @@ void System::output2DFluxData(int &snapshotNumber, double &tSnap, string prefixS
             
             if(FullOutput){
                 bodies[b]->writeFluxFile(snapshotNumber, nTime, tSnap, prefixString);
-                bodies[b]->writeAverageFile(snapshotNumber, nTime, tSnap, prefixString);
+                //bodies[b]->writeAverageFile(snapshotNumber, nTime, tSnap, prefixString);
             }
             
             bodies[b]->writeToLocationFiles(tSnap, bodies);
@@ -1243,10 +1243,11 @@ void System::output2DFluxData(int &snapshotNumber, double &tSnap, string prefixS
     
 }
 
-void System::outputIntegratedFluxData() {
+void System::outputSummaryFluxData() {
     /*
      * Written 4/12/14 by dh4gan
-     * Writes the integrated flux data to files
+     * Updated 3/12/24 by LSP7654
+     * Writes the integrated and average flux data to files
      *
      */
     
@@ -1254,11 +1255,12 @@ void System::outputIntegratedFluxData() {
         if (bodies[b]->getType() == "PlanetSurface") {
             
             bodies[b]->writeIntegratedFile();
+            bodies[b]->writeAverageFile();
             
         }
         
     }
-    
+    return;   
 }
 
 void System::outputInfoFile(int nSnaps)

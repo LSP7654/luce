@@ -201,7 +201,8 @@ public:
 	virtual void writeIntegratedFile(){};
 
 	//Written 1/25/24 by LSP7654
-	virtual void writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString){};
+		//Updated 3/12/24
+	virtual void writeAverageFile(){};
 
 	// Variables that are part of the Body Class and its derivations //
 protected:
