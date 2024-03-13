@@ -57,13 +57,14 @@ for i in range(nfiles):
         
     ##For Total Flux Plots
     #
-    #inputfile = prefix +'_'+planetname+'_'+num+'.flux'   
-    #fluxfile = 'flux_'+prefix+'_'+planetname+'_'+num+'.png'    
+    inputfile = prefix +'_'+planetname+'_'+num+'.flux'   
+    fluxfile = 'flux_'+prefix+'_'+planetname+'_'+num+'.png'    
        
     ##For Avg Flux Plots 
     #Written 1/25/24 by LSP7654
-    inputfile = prefix +'_'+planetname+'_'+num+'.avg'
-    avgfluxfile = 'avgflux_'+prefix+'_'+planetname+'_'+num+'.png'
+    #inputfile = prefix +'_'+planetname+'_'+num+'.avg'
+    # inputfile = prefix +'_'+planetname+'.avg'
+    # avgfluxfile = 'avgflux_'+prefix+'_'+planetname+'_'+num+'.png'
 
     # Read in header - time, position data etc
 
@@ -74,20 +75,20 @@ for i in range(nfiles):
    # numbers = split(line)
     numbers=line.split() 
 
-    print(line.split())
-    print(inputfile)
-    print(numbers)
-    print(numbers[1])
-    print(numbers[2])
+    # print(line.split())
+    # print(inputfile)
+    # print(numbers)
+    # print(numbers[1])
+    # print(numbers[2])
 	
     time=float(numbers[0])
     nlat = int(numbers[1])
     nlong = int(numbers[2])
 
-    #time = 1
-    #print("warning: time is hardcoded T=1")
-    #nlat = int(numbers[0])
-    #nlong = int(numbers[1])
+    # time = 1
+    # print("warning: time is hardcoded T=1")
+    # nlat = int(numbers[0])
+    # nlong = int(numbers[1])
         
     f.close()
     
@@ -128,7 +129,7 @@ for i in range(nfiles):
     # plt.pcolor(longitude,latitude,avgflux, cmap='Spectral')
     # plt.colorbar()
 
-    plt.savefig(avgfluxfile, format= 'png')
+    plt.savefig(fluxfile, format= 'png')
     plt.clf()
 
 # end of loop
@@ -141,8 +142,8 @@ convertcommand = '/opt/homebrew/Cellar/imagemagick/7.1.1-22/bin/convert '
 
 # Create movie if requested
 if(moviechoice=='y'):
-    print('Creating animated gif of avg flux pattern, filename avgfluxmovie.gif')
-    system(convertcommand +'-delay 10 avgflux_'+prefix+'*.png avgfluxmovie.gif')
+    print('Creating animated gif of flux pattern, filename fluxmovie.gif')
+    system(convertcommand +'-delay 10 flux_'+prefix+'*.png fluxmovie.gif')
 
     if(deletechoice=='y'):
         print('Deleting png files')
