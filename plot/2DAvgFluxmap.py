@@ -46,6 +46,21 @@ nzeros = int(np.log10(nfiles))+1
 # Loop over files
 print(range(nfiles))
 
+inputfile = prefix +'_'+planetname+'.avg'
+avgfluxfile = 'avgflux_'+prefix+'_'+planetname+'_'+num+'.png'
+
+f = open(inputfile, 'r')
+
+line = f.readline()
+
+numbers=line.split() 
+
+nlat = int(numbers[0])
+nlong = int(numbers[1])
+        
+f.close()
+
+
 for i in range(nfiles):
 
     # Create filename - how many zeros needed?
@@ -74,7 +89,7 @@ for i in range(nfiles):
         
     f.close()
     
-    print('File', str(i+1),'Time', time, "yr")
+    #print('File', str(i+1),'Time', time, "yr")
     
     # Read in rest of file
     

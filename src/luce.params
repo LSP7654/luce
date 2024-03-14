@@ -1,7 +1,7 @@
 ParType Orbital
 NBodyOutput test.nbody
-SnapshotTime	1.0e-2
-MaximumTime	1.0
+SnapshotTime	1.0
+MaximumTime	100.0
 NLambda		100
 NLatitude	100
 NLongitude 	100
@@ -33,7 +33,7 @@ Inclination 0.0    (degrees)
 LongAscend 0.0     (degrees)
 Periapsis 0.0      (degrees)
 MeanAnomaly 0.0    (degrees)
-RotationPeriod 1.0  (days)
+RotationPeriod 1.0 (days)
 Obliquity  23.7   (degrees)
 OrbitCentre 0
 
