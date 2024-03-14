@@ -51,14 +51,7 @@ for i in range(nfiles):
     # Create filename - how many zeros needed?
     num = str(i+1)
     k=np.log10(i+1)
-    #while (k<nzeros): 
-    #    num = "0"+num
-    #    k+=1     
-        
-    ##For Total Flux Plots
-    #
-    #inputfile = prefix +'_'+planetname+'_'+num+'.flux'   
-    #fluxfile = 'flux_'+prefix+'_'+planetname+'_'+num+'.png'    
+
        
     ##For Avg Flux Plots 
     #Written 1/25/24 by LSP7654
@@ -72,21 +65,10 @@ for i in range(nfiles):
 
     line = f.readline()
 
-   # numbers = split(line)
     numbers=line.split() 
 
-    # print(line.split())
-    # print(inputfile)
-    # print(numbers)
-    # print(numbers[1])
-    # print(numbers[2])
-	
-    # time=float(numbers[0])
-    # nlat = int(numbers[1])
-    # nlong = int(numbers[2])
-
-    time = 1
-    print("warning: time is hardcoded T=1")
+    # time = 1
+    # print("warning: time is hardcoded T=1")
     nlat = int(numbers[0])
     nlong = int(numbers[1])
         
@@ -116,18 +98,12 @@ for i in range(nfiles):
     #vmax was set to fluxmax but I changed it
     import matplotlib.colors as colors
 
-    #fluxmin = avgflux.min()
-    #fluxmax = avgflux.max()
+
     print("max =", fluxmax)
     print("min =", fluxmin)
     pcm = ax.pcolor(longitude,latitude,avgflux,norm=colors.Normalize(vmin= fluxmin, vmax= fluxmax), cmap='Spectral')
-    #pcm = ax.pcolor(longitude,latitude,avgflux,vmin= fluxmin, vmax= fluxmax, cmap='Spectral')
-    #pcm = ax.pcolor(longitude,latitude,avgflux)
     fig1.colorbar(pcm)
 
-
-    # plt.pcolor(longitude,latitude,avgflux, cmap='Spectral')
-    # plt.colorbar()
 
     plt.savefig(avgfluxfile, format= 'png')
     plt.clf()
@@ -138,7 +114,6 @@ for i in range(nfiles):
 # Command for converting images into gifs - machine dependent
 
 convertcommand = '/opt/homebrew/Cellar/imagemagick/7.1.1-22/bin/convert '
-#convertcommand = '/usr/bin/convert '
 
 # Create movie if requested
 if(moviechoice=='y'):

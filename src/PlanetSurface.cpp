@@ -292,8 +292,7 @@ void PlanetSurface::calcFlux(int &istar, Body* &star, double &eclipseFraction,
 	pos = (starpos).relativeVector(planetpos);
 	magpos = pos.magVector();
 	unitpos = pos.unitVector();
-	lstar = 3.827e+26;
-	//lstar = star->getLuminosity();
+	lstar = star->getLuminosity();
 
 	// Declination of the Sun - angle between planet's position vector and equator (at noon)
 
@@ -352,7 +351,6 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 						sin(latitude[k]) * sin(long_apparent),
 						cos(latitude[k]));
 
-
 				surface = surface.unitVector();
 
 				// If necessary, rotate surface vector by obliquity
@@ -363,19 +361,10 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 
 				// take the dot product with the unit position vector
 
-				//rdotn = unitpos.dotProduct(surface);
-				//rdotn = norm(surface);
-				rdotn = rand();
+				rdotn = unitpos.dotProduct(surface);
+				
 
-				//cout << "rdotn =" << rdotn << endl;
-                
 				// Calculate fluxes
-				// if position.surface is less than zero, long/lat location is not illuminated
-				//srad = 1
-				//temp = 5700.0
-				//fluxtemp = (5.67e-8) * (0.99) * (2.0 * pi * 1 * 1) * (5700.0 * 5700.0 * 5700.0 * 5700.0) * rdotn / (4.0 * pi * magpos * magpos);
-				//fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
-                
 				if (rdotn > 0.0) {
 
 					fluxtemp = lstar * rdotn / (4.0 * pi * magpos * magpos);
@@ -383,14 +372,12 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 				}
 				else
 				    {
-				    fluxtemp = 500.0;
+				    fluxtemp = 0;
 				    }
 
                 
 				flux[istar][j][k] = fluxtemp * (1.0 - eclipseFraction) * fluxsol;
-				//flux[istar][j][k] = fluxtemp * fluxsol;
-				//cout << fluxtemp << endl;
-
+				
 				fluxtot[j][k] = fluxtot[j][k] + flux[istar][j][k];
 
 
@@ -401,7 +388,6 @@ shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
 				if (fluxtot[j][k] < fluxmin) {
 					fluxmin = fluxtot[j][k];
 				}
-				//cout << "minimum flux:" << fluxmin << endl;
 
 				// Calculate altitude and azimuthal position on sky, and angular size
 				// Formulae not exactly as used normally
@@ -590,12 +576,6 @@ void PlanetSurface::calcAverageFlux(int snapshotNumber, double &dt) {
 				else {
 					avgflux[j][k] = ((avgflux[j][k] * (snapshotNumber - 1)) + fluxtot[j][k])/(snapshotNumber);
 				}
-
-				//cout << avgflux[j][k] << endl;
-				// //If flux zero, add to darkness counter
-				// if (avgflux[j][k] < 1.0e-6) {
-				// 	darkness[j][k] = darkness[j][k] + dt;
-				// }
 				
 			}
 		}
@@ -604,7 +584,8 @@ void PlanetSurface::calcAverageFlux(int snapshotNumber, double &dt) {
 }
 
 void PlanetSurface::writeAverageFile() {
-
+	//Written 3/12/24 by LSP7654
+	 
 	fprintf(avgfluxFile, "%i %i \n", nLatitude, nLongitude);
 
 	for (int j = 0; j < nLongitude; j++) {
@@ -616,36 +597,3 @@ void PlanetSurface::writeAverageFile() {
 	fflush(avgfluxFile);
 	fclose(avgfluxFile);
 }
-
-
-
-// void PlanetSurface::writeAverageFile(int &snapshotNumber, int &nTime, double &time, string prefixString) {
-// 	//Written 1/25/24 by LSP7654
-// 	//writes a snapshot of the average flux to file
-
-// 	ostringstream convert;
-// 	convert << snapshotNumber;
-
-// 	string numString = convert.str();
-
-// 	int nzeros =int(log10(nTime) + 1);
-
-// 	string snapshotFileName = prefixString+"_"+getName()+"_"+numString+".avg";
-
-// 	avgfluxFile = fopen(snapshotFileName.c_str(), "w");
-// 	if (avgfluxFile == NULL) {
-// 		perror("Failed: ");
-// 		return;
-// 	}
-
-// 	fprintf(avgfluxFile, "%+.4E %i %i \n", time, nLatitude, nLongitude);
-// 	for (int j = 0; j < nLongitude; j++) {
-// 		for (int k = 0; k < nLatitude; k++) {
-// 			fprintf(avgfluxFile, "%+.4E %+.4E %+.4E %+.4E \n", longitude[j],
-// 					latitude[k], avgflux[j][k], darkness[j][k]);
-// 		}
-// 	}
-// 	fflush(avgfluxFile);
-// 	fclose(avgfluxFile);
-
-// }
