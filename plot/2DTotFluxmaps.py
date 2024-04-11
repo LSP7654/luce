@@ -23,7 +23,7 @@ darkcol = 3
 #planetname = input("What is the planet name? ")
 
 prefix = "test"
-planetname = "Earth"
+planetname = "Kepler-16b"
 
 nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin = infofile.read_infofile(prefix)
 
