@@ -230,6 +230,9 @@ int main(int argc, char* argv[])
 	    // Calculate 2D Fluxes
 	    nBodySystem.calc2DFlux(snapshotNumber, timeyr, dtflux);
 
+        //Calculate Photosynthesis Rates
+        nBodySystem.calcPhotosynthRate(dtflux);
+
 	    // Output data to files
 	    snapshotNumber++;
 	    timeyr = timeunit/twopi;
@@ -252,6 +255,10 @@ int main(int argc, char* argv[])
     //to do...
     //nBodySystem.outputAvgFluxData(snapshotNumber);
     nBodySystem.outputInfoFile(snapshotNumber);
+
+    //Output Photosynthesis Rate data to file
+    nBodySystem.outputPrateData();
+
         
     // Simulation has now ended
     // Write elapsed runtime to the screen

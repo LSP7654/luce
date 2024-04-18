@@ -25,6 +25,9 @@ PlanetSurface::PlanetSurface() :
 	fluxmax = 0.0;
 	fluxmin = 1.0e50;
 
+	// a = 1.0e-5;
+	// b = 1.0e-3;
+	// g = 2.0;
 	initialiseArrays();
 
 	// By default, prepicked surface location is on the equator/prime meridian
@@ -44,6 +47,9 @@ PlanetSurface::PlanetSurface(string &namestring, double &m,
 	fluxmax = 0.0;
 	fluxmin = 1.0e50;
 
+	// a = 1.0e-5;
+	// b = 1.0e-3;
+	// g = 2.0;
 	initialiseArrays();
 
 	// By default, prepicked surface location is on the equator/prime meridian
@@ -67,6 +73,9 @@ PlanetSurface::PlanetSurface(string &namestring, double &m,
 	fluxmax = 0.0;
 	fluxmin = 1.0e50;
 
+	// a = 1.0e-5;
+	// b = 1.0e-3;
+	// g = 2.0;
 	initialiseArrays();
 
 	// By default, prepicked surface location is on the equator/prime meridian
@@ -87,7 +96,10 @@ Body(input,bodyIndex,G)
     obliquity = input.getDoubleVariable("Obliquity", bodyIndex);
     fluxmax = 0.0;
 	fluxmin = 1.0e50;
-    
+
+  	// a = 1.0e-5;
+	// b = 1.0e-3;
+	// g = 2.0; 
     initialiseArrays();
     
     // By default, prepicked surface location is on the equator/prime meridian
@@ -135,6 +147,7 @@ void PlanetSurface::initialiseArrays() {
 			avgflux[j][k] = 0.0;
 			darkness[j][k] = 0.0;
 
+			Prate[j][k] = 0.0;
 		}
 	}
 
@@ -185,6 +198,7 @@ void PlanetSurface::initialiseOutputVariables(string prefixString, vector<Body*>
 	fileString = prefixString+"_"+getName()+".integrated";
 	integratedFile = fopen(fileString.c_str(),"w");
 	avgfluxFile = fopen(string(prefixString+"_"+getName()+".avg").c_str(),"w");
+	PrateFile = fopen(string(prefixString+"_"+getName()+".rate").c_str(),"w");
 
 }
 
@@ -337,7 +351,7 @@ void PlanetSurface::calcFlux(int &istar, Body* &star, double &eclipseFraction,
 #pragma omp parallel default(none) \
 shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
 shared(noon,altitude,azimuth,time,obliquity,nStars) \
-shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
+shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,Prate,dt) \
 	private(k,s,fluxtemp) \
 	reduction(max: fluxmax, min: fluxmin)
 	{
@@ -437,7 +451,7 @@ void PlanetSurface::calcIntegratedQuantities(double &dt) {
 #pragma omp parallel default(none) \
 	shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
 	shared(noon,altitude,azimuth,time,obliquity,nStars) \
-	shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
+	shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,Prate,dt) \
 		private(k,s,fluxtemp) \
 		reduction(max: fluxmax)
 		{
@@ -563,7 +577,7 @@ void PlanetSurface::calcAverageFlux(int snapshotNumber, double &dt) {
 #pragma omp parallel default(none) \
 	shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
 	shared(noon,altitude,azimuth,time,obliquity,nStars) \
-	shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,dt) \
+	shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,Prate,dt) \
 		private(k,s,fluxtemp) \
 		reduction(max: fluxmax)
 		{
@@ -596,4 +610,53 @@ void PlanetSurface::writeAverageFile() {
 	}
 	fflush(avgfluxFile);
 	fclose(avgfluxFile);
+}
+
+
+
+void PlanetSurface::calcPhotosynthRate(double &dt) {
+	//Written 4/16/24 by LSP7654
+	//calculates Photosynthesis Rates over time 
+
+	double a, b, g, I;
+
+	for (int j = 0; j < nLongitude; j++) {
+#pragma omp parallel default(none) \
+	shared(j,longitude,latitude,hourAngle,flux,nLatitude)\
+	shared(noon,altitude,azimuth,time,obliquity,nStars) \
+	shared(fluxsol,eclipseFraction,darkness,integratedflux,avgflux,Prate,dt) \
+		private(k,s,fluxtemp) \
+		reduction(max: fluxmax)
+		{
+#pragma omp for schedule(runtime) ordered
+			for (int k = 0; k < nLatitude; k++) {
+				a = 1.0e-5;
+				b = 1.0e-3;
+				g = 2.0;
+				I = avgflux[j][k];
+				//Prate[j][k] = I/(a*I*I + b*I + g) - 0.3*Prate[j][k];
+				//Prate[j][k] = I/(a*I*I + b*I + g);
+
+				Prate[j][k] = (avgflux[j][k]/((1.0e-5)*avgflux[j][k]*avgflux[j][k] + (1.0e-3)*avgflux[j][k] + 2.0)) - 0.3*Prate[j][k];
+
+				//cout << Prate[j][k] << endl;
+			}
+		}
+	}
+}			
+
+
+void PlanetSurface::writePrateFile() {
+	//Written 4/16/24 by LSP7654
+	 
+	fprintf(PrateFile, "%i %i \n", nLatitude, nLongitude);
+
+	for (int j = 0; j < nLongitude; j++) {
+		for (int k = 0; k < nLatitude; k++) {
+			fprintf(PrateFile, "%+.4E  %+.4E  %+.4E  %+.4E \n", longitude[j],
+					latitude[k], Prate[j][k], darkness[j][k]);
+		}
+	}
+	fflush(PrateFile);
+	fclose(PrateFile);
 }

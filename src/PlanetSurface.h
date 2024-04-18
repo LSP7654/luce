@@ -78,6 +78,9 @@ public:
 	void calcAverageFlux(int snapshotNumber, double &dt);
 	void writeAverageFile();
 
+	void calcPhotosynthRate(double &dt);
+	void writePrateFile();
+
 	void setHostBody(Body* bod){};
 
 	static const int nStarMax = 10;
@@ -115,7 +118,9 @@ protected:
 	double avgflux[nLongMax][nLatMax];
 	double darkness[nLongMax][nLatMax];
 
-	FILE *integratedFile, *fluxFile, *avgfluxFile, *locationFile[nStarMax];
+	double Prate[nLongMax][nLatMax];
+
+	FILE *integratedFile, *fluxFile, *avgfluxFile, *locationFile[nStarMax], *PrateFile;
 
 };
 

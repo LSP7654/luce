@@ -1135,6 +1135,7 @@ void System::calc2DFlux(int snapshotNumber, double &time, double &dt)
             
             bodies[j]->calcIntegratedQuantities(dt);
             bodies[j]->calcAverageFlux(snapshotNumber, dt);
+    
         }
         
     }
@@ -1142,6 +1143,20 @@ void System::calc2DFlux(int snapshotNumber, double &time, double &dt)
     
 }
 
+void System::calcPhotosynthRate(double &dt)
+{
+    //Written 4/17/24 by LSP7654
+    //Method allows PlanetSurface Objects to call their photosythesis calculation routine
+    
+    for (int j=0; j<bodyCount; j++)
+    {
+        if(bodies[j]->getType()=="PlanetSurface")   
+        {
+            bodies[j]->calcPhotosynthRate(dt);
+        }
+    }
+
+}
 
 void System::initialise2DFluxOutput(string prefixString)
 {
@@ -1256,11 +1271,22 @@ void System::outputSummaryFluxData() {
             
             bodies[b]->writeIntegratedFile();
             bodies[b]->writeAverageFile();
-            
+                    
         }
         
     }
     return;   
+}
+
+void System::outputPrateData()
+{
+    //Written 4/17/14 by LSP7654
+    //writes photosynthesis rates to file
+    for (int b = 0; b < bodyCount; b++) {
+        if (bodies[b]->getType() == "PlanetSurface") {
+            bodies[b]->writePrateFile();
+        }
+    }
 }
 
 void System::outputInfoFile(int nSnaps)

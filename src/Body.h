@@ -204,6 +204,11 @@ public:
 		//Updated 3/12/24
 	virtual void writeAverageFile(){};
 
+	//Written 4/17/24 by LSP7654
+	virtual void calcPhotosynthRate(double &dt){};
+	virtual void writePrateFile(){};
+
+
 	// Variables that are part of the Body Class and its derivations //
 protected:
 

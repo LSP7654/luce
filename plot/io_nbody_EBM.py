@@ -7,39 +7,39 @@ import body as b
 
 def checkData(N,names, mass, radius, semimaj, eccentricity, inclination, longascend, periapsis, meananomaly ):
     if len(names)!=N: 
-        print "Error! Not enough names"
+        print("Error! Not enough names")
         return -1
     
     if len(mass)!=N: 
-        print "Error! Not enough mass"
+        print("Error! Not enough mass")
         return -1
     
     if len(radius)!=N: 
-        print "Error! Not enough radius"
+        print("Error! Not enough radius")
         return -1
     
     if len(semimaj)!=N: 
-        print "Error! Not enough semimajor axes"
+        print("Error! Not enough semimajor axes")
         return -1
     
     if len(eccentricity)!=N: 
-        print "Error! Not enough eccentricities"
+        print("Error! Not enough eccentricities")
         return -1
     
     if len(inclination)!=N: 
-        print "Error! Not enough inclinations"
+        print("Error! Not enough inclinations")
         return -1
     
     if len(longascend)!=N: 
-        print "Error! Not enough longitudes of ascending node"
+        print("Error! Not enough longitudes of ascending node")
         return -1
     
     if len(periapsis)!=N: 
-        print "Error! Not enough periapses"
+        print("Error! Not enough periapses")
         return -1
     
     if len(meananomaly)!=N: 
-        print "Error! Not enough mean anomalies"
+        print("Error! Not enough mean anomalies")
         return -1
     
     return 0
@@ -52,7 +52,7 @@ def writeOrbitalParameterFile(paramfile, outputfile, tmax, tsnap, systemname, N,
     success = checkData(N, names, mass, radius, semimaj, eccentricity, inclination, longascend, periapsis, meananomaly)
     
     if(success !=0):
-        print "Failure in file write to "+paramfile
+        print("Failure in file write to "+paramfile)
         return
     
     f = open(paramfile, 'w')
@@ -108,13 +108,13 @@ def writeOrbitalParameterFile(paramfile, outputfile, tmax, tsnap, systemname, N,
 def read_nbody_datafile(filename, tmax):
     ''' Reads in nbodycplusplus output to an array of body objects'''
     
-    print "Reading ", filename        
+    print("Reading ", filename)       
     
     #Create the object file
     file_obj = c.reader( open(str(filename),"rb") )
     
     #First line should say the number of bodies separated by a comma
-    number_bodies = np.int(file_obj.next()[1])
+    number_bodies = int(file_obj.next()[1])
     
     #This is the format of the data file
     # tstop, etot, name, mass,radius, 
@@ -125,8 +125,9 @@ def read_nbody_datafile(filename, tmax):
     #Set up the bodies array
     bodyarray=[]
     
+
     #Initialise the bodies with initial parameters that it can be for n bodies
-    for i in xrange(number_bodies):
+    for i in range(number_bodies):
         initial_params = file_obj.next()
         bodyarray.append(b.body(initial_params[2], initial_params[3], initial_params[4], \
                                    initial_params[5], initial_params[6], initial_params[7], \
@@ -137,12 +138,12 @@ def read_nbody_datafile(filename, tmax):
     
     time=np.array(np.float(initial_params[0]))
     
-    print "There are ",number_bodies," bodies in this system"
-    if(tmax !=0.0): print "Plotting up to time ", tmax
+    print("There are ",number_bodies," bodies in this system")
+    if(tmax !=0.0): print("Plotting up to time ", tmax)
     
     #Loop through the file and update the parameters of each of the bodies in question
     for row in file_obj:
-        for i in xrange(number_bodies):
+        for i in range(number_bodies):
             if row[2] == bodyarray[i].bodytype:
                 bodyarray[i].update_body(row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16])
         if row[2] == bodyarray[0].bodytype:
@@ -154,7 +155,7 @@ def read_nbody_datafile(filename, tmax):
             break
     
                 
-    print "There are ", np.size(time), " lines in the file"
+    print("There are ", np.size(time), " lines in the file")
     
     return time, bodyarray, number_bodies    
 

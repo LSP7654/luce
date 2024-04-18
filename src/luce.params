@@ -25,8 +25,8 @@ OrbitCentre 0
 --
 BodyName Earth
 BodyType PlanetSurface
-Mass 1.0e-6
-Radius 1.0e-4
+Mass 3.002e-6
+Radius 9.149e-3
 SemiMajorAxis 1.0  (AU)
 Eccentricity 0.3
 Inclination 0.0    (degrees)

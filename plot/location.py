@@ -6,9 +6,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import infofile
 
-from string import split
+#from string import split
 from os import system
-import sys
+#import sys
 
 pi = 3.1415926585
 solrad = 6.9e10
@@ -44,16 +44,16 @@ starcolor = []
 
 # Read in info file to obtain input parameters
 
-prefix = raw_input("What is the file prefix? ")
-planetname = raw_input("What is the planet name? ")
+prefix = input("What is the file prefix? ")
+planetname = input("What is the planet name? ")
 
-nfiles, nstars, starname, starradius, startemp, starcolor,fluxmax = infofile.read_infofile(prefix)
+nfiles, nstars, starname, starradius, startemp, starcolor,fluxmax,fluxmin = infofile.read_infofile(prefix)
 
 # Read in movie input parameters
    
-moviechoice = raw_input("Make an animated gif at end? (y/n) ")
+moviechoice = input("Make an animated gif at end? (y/n) ")
 if(moviechoice=='y'):
-    deletechoice = raw_input("Delete .png files? (y/n) ")
+    deletechoice = input("Delete .png files? (y/n) ")
 
 #moviechoice = 'y'
 #deletechoice = 'y'
@@ -227,7 +227,7 @@ if(moviechoice == 'y'):
         
         skyoutput = 'skypos_'+prefix+num+'_latlong_'+str(mylat)+'_'+str(mylong)+'.png'
         
-        print 'Plotting Files for snapshot ',num
+        print('Plotting Files for snapshot ',num)
         
         # Plot sky position for this timestep
     
@@ -283,7 +283,7 @@ if(moviechoice == 'y'):
 
 
 
-    print 'All timesteps plotted'
+    print('All timesteps plotted')
     # Command for converting images into gifs - machine dependent
 
     convertcommand = '/opt/ImageMagick/bin/convert '
@@ -291,18 +291,18 @@ if(moviechoice == 'y'):
 
     # Create movie if requested
     
-    print 'Creating animated gif of sky pattern, filename skymovie.gif'
+    print('Creating animated gif of sky pattern, filename skymovie.gif')
     system(convertcommand +'skypos_'+prefix+'*_latlong_'+str(mylat)+'_'+str(mylong)+'.png skymovie.gif')
     
-    print 'Creating animated gif of SFD, filename sfdmovie.gif'
+    print('Creating animated gif of SFD, filename sfdmovie.gif')
     system(convertcommand +'sfd_'+prefix+'*_latlong_'+str(mylat)+'_'+str(mylong)+'.png sfdmovie.gif')
     
     
     if(deletechoice=='y'):
-        print 'Deleting png files'
+        print('Deleting png files')
         system('rm skypos_'+prefix+'*.png')
         system('rm sfd_'+prefix+'*.png')                    
 
 
-print 'Complete'
+print('Complete')
 

@@ -19,7 +19,7 @@ def plot_orbits():
     # Data file read from the command line        
     
     if len(argv)==1:
-        input_file = raw_input("Enter the datafile: ")
+        input_file = input("Enter the datafile: ")
     elif len(argv)==2:
         input_file = argv[1]
         tmax = input("What is the maximum time? Enter 0 for no maximum ")
@@ -88,7 +88,7 @@ def plot_orbits():
     rperax.set_yscale('log')
         
     
-    for i in xrange(number_bodies):
+    for i in range(number_bodies):
         if(i==0 and ignore_body1): continue # Skip star if necessary                
 
         rper = bodyarray[i].a*(1.0-bodyarray[i].e)

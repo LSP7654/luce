@@ -14,14 +14,14 @@ import io_nbody_EBM as io_nbody
 # Data file can be read from the command line or from argument        
     
 if len(argv)==1:
-    input_file = raw_input("Enter the datafile: ")
+    input_file = input("Enter the datafile: ")
 else:
     input_file = argv[1]
     
 tmax = 0.0
 time, bodyarray, number_bodies = io_nbody.read_nbody_datafile(input_file, tmax)    
     
-for i in xrange(number_bodies):
+for i in range(number_bodies):
     fig = plt.figure(i)
     plt.suptitle(str(bodyarray[i].bodytype))
     plt.subplot(211)

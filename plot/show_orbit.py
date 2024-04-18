@@ -21,7 +21,7 @@ def show_orbit():
     # Data file read from the command line        
     
     if len(argv)==1:
-        input_file = raw_input("Enter the datafile: ")
+        input_file = input("Enter the datafile: ")
     else:
         input_file = argv[1]
     
@@ -137,7 +137,7 @@ def show_orbit():
 def pick_circle_colour(rad):
     '''Selects the plotting colour for the object depending on its radius'''    
 
-    print rad
+    print(rad)
     # Sub Earths (lightblue)
     subearth = (29.0/256.0,166.0/256.0,97.0/256.0)
     # Earths
@@ -170,7 +170,7 @@ def pick_circle_colour(rad):
     elif rad>20.0:
         colors = stars 
         
-    print colors
+    print(colors)
     return colors
 
 

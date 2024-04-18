@@ -98,6 +98,7 @@ public:
 	void calcLongitudesOfNoon();
 	void calc2DFlux(int snapshotNumber, double &time, double &dt);
 
+	void calcPhotosynthRate(double &dt);
 
 	// Output Methods
 
@@ -106,6 +107,8 @@ public:
 	void output2DFluxData(int &snapshotNumber, double &tSnap, string prefixString);
 	void outputSummaryFluxData();
 	void outputInfoFile(int nSnaps);
+
+	void outputPrateData();
 
 protected:
 
