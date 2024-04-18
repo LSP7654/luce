@@ -648,6 +648,7 @@ void PlanetSurface::calcPhotosynthRate(double &dt) {
 
 void PlanetSurface::writePrateFile() {
 	//Written 4/16/24 by LSP7654
+	//writes photosynthesis data to file
 	 
 	fprintf(PrateFile, "%i %i \n", nLatitude, nLongitude);
 

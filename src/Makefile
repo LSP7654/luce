@@ -41,7 +41,6 @@ clean:
 	\rm *.o luce
 
 run:
-	\pushd .;
 	\mkdir -p ../data;
 	\cd ../data;
 	\../src/luce ../src/kepler.test
