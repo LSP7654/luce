@@ -1147,7 +1147,7 @@ void System::calcPhotosynthRate(double &dt)
 {
     //Written 4/17/24 by LSP7654
     //Method allows PlanetSurface Objects to call their photosythesis calculation routine
-    
+
     for (int j=0; j<bodyCount; j++)
     {
         if(bodies[j]->getType()=="PlanetSurface")   
@@ -1309,7 +1309,11 @@ void System::outputInfoFile(int nSnaps)
     
     double globalFluxMax= 0.0;
     double globalFluxMin= 1.0e50;
+    double globalAvgFluxMax= 0.0;
     int nStars = countStars();
+
+    double globalPMax = 0.0;
+    double globalPMin = 1.0e50;
     
     fprintf(infoFile,"%i \n", nSnaps);
     fprintf(infoFile,"%i \n", nStars);
@@ -1335,14 +1339,38 @@ void System::outputInfoFile(int nSnaps)
             {
                 globalFluxMin = bodies[s]->getFluxMin();
             }
+
+            if (bodies[s]->getAvgFluxMax() > globalAvgFluxMax)
+            {
+                globalAvgFluxMax = bodies[s]->getAvgFluxMax();
+            }
+
+            if (bodies[s]->getPMax() > globalPMax)
+            {
+                globalPMax = bodies[s]->getPMax();
+            }
+            
+            if (bodies[s]->getPMin() < globalPMin)
+            {
+                globalPMin = bodies[s]->getPMin();
+            }
             
         }
     }
     
     fprintf(infoFile, "%+.4E \n", globalFluxMax);
     fprintf(infoFile, "%+.4E \n", globalFluxMin);
+    fprintf(infoFile, "%+.4E \n", globalAvgFluxMax);
+    fprintf(infoFile, "%+.4E \n", globalPMax);
+    fprintf(infoFile, "%+.4E \n", globalPMin);
+    
     printf("globalFluxMax: %+.4E \n", globalFluxMax);
     printf("globalFluxMin: %+.4E \n", globalFluxMin);
+    // fprintf(infoFile, "%+.4E \n", globalPMax);
+    // fprintf(infoFile, "%+.4E \n", globalPMin);
+    printf("globalPMax: %+.4E \n", globalPMax);
+    printf("globalPMin: %+.4E \n", globalPMin);
+
     fclose(infoFile);
     
     

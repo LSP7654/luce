@@ -24,6 +24,9 @@ PlanetSurface::PlanetSurface() :
 	obliquity = 0.5123;
 	fluxmax = 0.0;
 	fluxmin = 1.0e50;
+	Avgfluxmax = 0.0;
+	Pmax = 0.0;
+	Pmin = 1.0e50;
 
 	// a = 1.0e-5;
 	// b = 1.0e-3;
@@ -46,6 +49,8 @@ PlanetSurface::PlanetSurface(string &namestring, double &m,
 	obliquity = obliq;
 	fluxmax = 0.0;
 	fluxmin = 1.0e50;
+	Pmax = 0.0;
+	Pmin = 1.0e50;
 
 	// a = 1.0e-5;
 	// b = 1.0e-3;
@@ -72,6 +77,8 @@ PlanetSurface::PlanetSurface(string &namestring, double &m,
 	obliquity = obliq;
 	fluxmax = 0.0;
 	fluxmin = 1.0e50;
+	Pmax = 0.0;
+	Pmin = 1.0e50;
 
 	// a = 1.0e-5;
 	// b = 1.0e-3;
@@ -96,6 +103,8 @@ Body(input,bodyIndex,G)
     obliquity = input.getDoubleVariable("Obliquity", bodyIndex);
     fluxmax = 0.0;
 	fluxmin = 1.0e50;
+	Pmax = 0.0;
+	Pmin = 1.0e50;
 
   	// a = 1.0e-5;
 	// b = 1.0e-3;
@@ -591,6 +600,10 @@ void PlanetSurface::calcAverageFlux(int snapshotNumber, double &dt) {
 					avgflux[j][k] = ((avgflux[j][k] * (snapshotNumber - 1)) + fluxtot[j][k])/(snapshotNumber);
 				}
 				
+				if (avgflux[j][k] > Avgfluxmax){
+					Avgfluxmax = avgflux[j][k];
+				}
+
 			}
 		}
 	}
@@ -634,12 +647,24 @@ void PlanetSurface::calcPhotosynthRate(double &dt) {
 				b = 1.0e-3;
 				g = 2.0;
 				I = avgflux[j][k];
-				//Prate[j][k] = I/(a*I*I + b*I + g) - 0.3*Prate[j][k];
-				//Prate[j][k] = I/(a*I*I + b*I + g);
+				Prate[j][k] = I/(a*I*I + b*I + g) - 0.3*Prate[j][k];
 
-				Prate[j][k] = (avgflux[j][k]/((1.0e-5)*avgflux[j][k]*avgflux[j][k] + (1.0e-3)*avgflux[j][k] + 2.0)) - 0.3*Prate[j][k];
+				if (Prate[j][k] > 0) {
+					Prate[j][k] = Prate[j][k];
+				}
+				if (Prate[j][k] < 0) {
+					Prate[j][k] = 0;
+				}
 
-				//cout << Prate[j][k] << endl;
+				//Prate[j][k] = (avgflux[j][k]/((1.0e-5)*avgflux[j][k]*avgflux[j][k] + (1.0e-3)*avgflux[j][k] + 2.0)) - 0.3*Prate[j][k];
+
+				if (Prate[j][k] > Pmax) {
+					Pmax = Prate[j][k];
+				}
+
+				if (Prate[j][k] < Pmin) {
+					Pmin = Prate[j][k];
+				}
 			}
 		}
 	}

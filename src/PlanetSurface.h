@@ -40,6 +40,10 @@ public:
 
 	double getFluxMax(){return fluxmax;}
 	double getFluxMin(){return fluxmin;}
+	double getAvgFluxMax(){return Avgfluxmax;}
+
+	double getPMax(){return Pmax;}
+	double getPMin(){return Pmin;}
 
 	double getPSpin(){return Pspin;}
 	double getObliquity(){return obliquity;}
@@ -100,6 +104,9 @@ protected:
 	double obliquity;
 	double fluxmax;
 	double fluxmin;
+	double Avgfluxmax;
+	double Pmax;
+	double Pmin;
 	Body* hostBody;
 
 	double noon[nStarMax];

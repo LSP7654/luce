@@ -123,6 +123,15 @@ def read_infofile(prefix):
 
     line = f.readline()
     fluxmin = float(line)
+
+    line = f.readline()
+    Avgfluxmax = float(line)
+
+    line = f.readline()
+    Pmax = float(line)
+
+    line = f.readline()
+    Pmin = float(line)
         
     f.close()
     
@@ -133,5 +142,7 @@ def read_infofile(prefix):
     print("Colours ", starcolor)
     print("Maximum Flux: ", fluxmax)
     print("Minimum Flux: ", fluxmin)
+    print("Max Photosynthesis Rate: ", Pmax)
+    print("Min Photosynthesis Rate: ", Pmin)
     
-    return nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin
+    return nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin, Avgfluxmax, Pmax, Pmin

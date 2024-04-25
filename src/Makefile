@@ -40,10 +40,10 @@ luce:  $(OBJECTSA)
 clean: 
 	\rm *.o luce
 
-run:
-	\mkdir -p ../data;
-	\cd ../data;
-	\../src/luce ../src/kepler.test
+# run:
+# 	\mkdir -p ../data;
+# 	\cd ../data;
+# 	\../src/luce ../src/kepler.test
 #fix later
 
 # End Makefile

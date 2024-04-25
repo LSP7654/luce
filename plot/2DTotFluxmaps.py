@@ -25,7 +25,7 @@ darkcol = 3
 prefix = "test"
 planetname = "Kepler-16b"
 
-nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin = infofile.read_infofile(prefix)
+nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin, Avgfluxmax, Pmax, Pmin = infofile.read_infofile(prefix)
 
 # print(row.split(',')[0] row in infofile.read_infofile)
 # first_col = (int(row.split(',')[0]) for row in infofile.read_infofile(prefix))

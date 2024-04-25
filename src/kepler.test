@@ -12,21 +12,21 @@ Number_Bodies 3
 BodyName Kepler-16A
 BodyType Star
 Mass 0.6897
-Radius 0.6498
+Radius 0.739
 SemiMajorAxis 0.224
 Eccentricity 0.15944
 Inclination 0.0
 LongAscend 0.0
 Periapsis 0.0
 MeanAnomaly 0.0
-Luminosity 0.136
+Luminosity 0.148
 EffectiveTemperature 4450
 OrbitCentre 0
 --
 BodyName Kepler-16B
 BodyType Star
-Mass 0.2026
-Radius 0.2262
+Mass 0.20255
+Radius 0.22623
 SemiMajorAxis 0.224
 Eccentricity 0.15944
 Inclination 0.0
@@ -43,11 +43,11 @@ Mass 3.002e-6
 Radius 9.149e-3
 SemiMajorAxis 0.7  (AU)
 Eccentricity 0.0
-Inclination 0.4    (degrees)
+Inclination 0.4   (degrees)
 LongAscend 0.0     (degrees)
 Periapsis  0.0     (degrees)
 MeanAnomaly 0.0    (degrees)
-RotationPeriod 35.1 (days)
-Obliquity  30   (degrees)
+RotationPeriod 1.0 (days)
+Obliquity  0   (degrees)
 OrbitCentre 0
 

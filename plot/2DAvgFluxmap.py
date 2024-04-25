@@ -25,7 +25,9 @@ darkcol = 3
 prefix = "test"
 planetname = "Kepler-16b"
 
-nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin = infofile.read_infofile(prefix)
+
+
+nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin, Avgfluxmax, Pmax, Pmin = infofile.read_infofile(prefix)
 
 inputfile = prefix +'_'+planetname+'.avg'
 avgfluxfile = 'avgflux_'+prefix+'_'+planetname+'.png'
@@ -55,9 +57,9 @@ ax.set_ylabel('Latitude (degrees)')
 
 import matplotlib.colors as colors
 
-print("max =", fluxmax)
-print("min =", fluxmin)
-pcm = ax.pcolor(longitude,latitude,avgflux,norm=colors.Normalize(vmin= fluxmin, vmax= fluxmax), cmap='Spectral')
+#print("max =", fluxmax)
+#print("min =", fluxmin)
+pcm = ax.pcolor(longitude,latitude,avgflux,norm=colors.Normalize(vmin= fluxmin, vmax= Avgfluxmax), cmap='Spectral')
 fig1.colorbar(pcm)
 
 plt.savefig(avgfluxfile, format= 'png')

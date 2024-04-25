@@ -25,7 +25,7 @@ darkcol = 3
 prefix = "test"
 planetname = "Kepler-16b"
 
-nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin = infofile.read_infofile(prefix)
+nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin, Avgfluxmax, Pmax, Pmin = infofile.read_infofile(prefix)
 
 inputfile = prefix +'_'+planetname+'.rate'
 Pratefile = 'Prate_'+prefix+'_'+planetname+'.png'
@@ -45,7 +45,7 @@ data = np.genfromtxt(inputfile, skip_header=1)
 
 latitude = data[:,latcol].reshape(nlat,nlong)*180.0/pi
 longitude= data[:,longcol].reshape(nlat,nlong)*180.0/pi
-avgflux = data[:,fluxcol].reshape(nlat,nlong)
+Prate = data[:,fluxcol].reshape(nlat,nlong)
 darkness = data[:,darkcol].reshape(nlat,nlong)
 
 fig1 = plt.figure(1)
@@ -55,9 +55,9 @@ ax.set_ylabel('Latitude (degrees)')
 
 import matplotlib.colors as colors
 
-print("max =", fluxmax)
-print("min =", fluxmin)
-pcm = ax.pcolor(longitude,latitude,Prate,norm=colors.Normalize(vmin= fluxmin, vmax= fluxmax), cmap='Spectral')
+print("max =", Pmax)
+print("min =", Pmin)
+pcm = ax.pcolor(longitude,latitude,Prate,norm=colors.Normalize(vmin= Pmin, vmax= Pmax), cmap='viridis')
 fig1.colorbar(pcm)
 
 plt.savefig(Pratefile, format= 'png')
