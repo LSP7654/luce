@@ -59,7 +59,7 @@ import matplotlib.colors as colors
 
 #print("max =", fluxmax)
 #print("min =", fluxmin)
-pcm = ax.pcolor(longitude,latitude,avgflux,norm=colors.Normalize(vmin= fluxmin, vmax= Avgfluxmax), cmap='Spectral')
+pcm = ax.pcolor(longitude,latitude,avgflux,norm=colors.Normalize(vmin= fluxmin, vmax= Avgfluxmax), cmap='nipy_spectral')
 fig1.colorbar(pcm)
 
 plt.savefig(avgfluxfile, format= 'png')
