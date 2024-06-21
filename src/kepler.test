@@ -1,7 +1,7 @@
 ParType Orbital
 NBodyOutput test.nbody
-SnapshotTime	1.14e-3
-MaximumTime	0.0027
+SnapshotTime	1.0e-2
+MaximumTime	1.0
 NLambda		100
 NLatitude	100
 NLongitude 	100
@@ -42,12 +42,12 @@ BodyType PlanetSurface
 Mass 3.002e-6
 Radius 9.149e-3
 SemiMajorAxis 0.7  (AU)
-Eccentricity 0.5
+Eccentricity 0.0
 Inclination 0.4   (degrees)
 LongAscend 0.0     (degrees)
 Periapsis  0.0     (degrees)
 MeanAnomaly 0.0    (degrees)
 RotationPeriod 1.0 (days)
-Obliquity  60   (degrees)
+Obliquity  0   (degrees)
 OrbitCentre 0
 

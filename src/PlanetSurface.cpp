@@ -17,11 +17,12 @@
 
 PlanetSurface::PlanetSurface() :
 		Body() {
-	nStars = 1;
+	nStars = 2;
 	nLatitude = 100;
 	nLongitude = 100;
 	Pspin = 1.0/year;
-	obliquity = 0.5123;
+	//obliquity = 0.5123;
+	obliquity = 0;
 	fluxmax = 0.0;
 	fluxmin = 1.0e50;
 	Avgfluxmax = 0.0;
@@ -317,6 +318,9 @@ void PlanetSurface::calcFlux(int &istar, Body* &star, double &eclipseFraction,
 	unitpos = pos.unitVector();
 	lstar = star->getLuminosity();
 
+	//cout << "planetpos = " << planetpos << endl;
+	//printf(planetpos);
+	
 	// Declination of the Sun - angle between planet's position vector and equator (at noon)
 
 	Vector3D decVector(unitpos.elements[0], unitpos.elements[1],

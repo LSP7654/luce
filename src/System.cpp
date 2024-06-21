@@ -25,7 +25,8 @@ System::System()
     timeStep = 0.0;
     timeControl = 0.00002;
 
-    G = 1.0;
+    //G = 1.0;
+    G = 6.67425e-11;
     softeningLength = 1.0e-5;
 
     initialAngularMomentum = zeroVector;
@@ -427,8 +428,13 @@ void System::calcTotalEnergy()
 
 		r_distance = r_vector.magVector();
 
-		gravitational_potential += -G * body_ref_mass
-			* body_question_mass / r_distance;
+		gravitational_potential = (-G * body_ref_mass
+			* body_question_mass) / r_distance;
+
+        //  cout << "body_ref_mass =" << body_ref_mass << endl;
+        //  cout << "body_question_mass =" << body_question_mass << endl;
+        //  cout << "r_distance =" << r_distance << endl;
+        //  cout << "GP =" << gravitational_potential << endl;
 
 		}
 	    }

@@ -20,18 +20,20 @@ def plot_orbits():
     
     if len(argv)==1:
         input_file = input("Enter the datafile: ")
-    elif len(argv)==2:
-        input_file = argv[1]
-        tmax = input("What is the maximum time? Enter 0 for no maximum ")
-    elif len(argv)==3:
-        input_file = argv[1]
-        tmax = argv[2]                                    
+
+    tmax = 1.0
+    # elif len(argv)==2:
+    #     input_file = argv[1]
+    #     tmax = input("What is the maximum time? Enter 0 for no maximum ")
+    # elif len(argv)==3:
+    #     input_file = argv[1]
+    #     tmax = argv[2]                                    
     
     time, bodyarray, number_bodies = io_nbody.read_nbody_datafile(input_file, tmax)
          
     # Now begin plotting data - add in an option to skip the star
     
-    ignore_body1 = True
+    ignore_body1 = False
     
     if(len(argv)>3):
         if(argv[3]=='all'):

@@ -47,7 +47,7 @@ starcolor = []
 prefix = input("What is the file prefix? ")
 planetname = input("What is the planet name? ")
 
-nfiles, nstars, starname, starradius, startemp, starcolor,fluxmax,fluxmin = infofile.read_infofile(prefix)
+nfiles, nstars, starname, starradius, startemp, starcolor, fluxmax, fluxmin, Avgfluxmax, Pmax, Pmin= infofile.read_infofile(prefix)
 
 # Read in movie input parameters
    
@@ -286,7 +286,8 @@ if(moviechoice == 'y'):
     print('All timesteps plotted')
     # Command for converting images into gifs - machine dependent
 
-    convertcommand = '/opt/ImageMagick/bin/convert '
+    convertcommand = '/opt/homebrew/Cellar/imagemagick/7.1.1-22/bin/convert '
+    #convertcommand = '/opt/ImageMagick/bin/convert '
     #convertcommand = '/usr/bin/convert '
 
     # Create movie if requested

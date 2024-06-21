@@ -155,6 +155,8 @@ Body::Body(parFile &input, int &bodyIndex, double &G)
         
         eccentricityVector = zero; // Eccentricity Vector
         eccentricity = input.getDoubleVariable("Eccentricity",bodyIndex); // Eccentricity = Absolute Magnitude of Eccentricity Vector
+
+        cout << "ecc =" << eccentricity << endl;
         
         orbitalAngularMomentum = zero;
         magOrbitalAngularMomentum = 0.0;
@@ -253,42 +255,43 @@ void Body::calcOrbitalAngularMomentum()
 
     }
 
-void Body::calcEccentricity(double G, double totmass)
-    {
-    /* Author: dh4gan
-     * Calculates orbital eccentricity vector
-     * Assumes orbitalAngularMomentum is up to date
-     */
+// void Body::calcEccentricity(double G, double totmass)
+//     {
+//     /* Author: dh4gan
+//      * Calculates orbital eccentricity vector
+//      * Assumes orbitalAngularMomentum is up to date
+//      */
 
-    int i;
-    double magvel, magpos;
-    double gravparam, vdotr;
-    Vector3D zerovector;
+//     int i;
+//     double magvel, magpos;
+//     double gravparam, vdotr;
+//     Vector3D zerovector;
 
 
-    gravparam = G * totmass;
-    magpos = position.magVector();
-    magvel = velocity.magVector();
-    vdotr = velocity.dotProduct(position);
+//     gravparam = G * totmass;
+//     magpos = position.magVector();
+//     magvel = velocity.magVector();
+//     vdotr = velocity.dotProduct(position);
 
-    if (magpos == 0.0)
-	{
-	eccentricityVector = zerovector;
-	}
-    else
-	{
-	for (i = 0; i < 3; i++)
-	    {
-	    eccentricityVector.elements[i] = (magvel * magvel
-		    * position.elements[i] - vdotr * velocity.elements[i])
-		    / (gravparam) - position.elements[i] / magpos;
-	    }
+//     if (magpos == 0.0)
+// 	{
+// 	eccentricityVector = zerovector;
+// 	}
+//     else
+// 	{
+// 	for (i = 0; i < 3; i++)
+// 	    {
+// 	    eccentricityVector.elements[i] = (magvel * magvel
+// 		    * position.elements[i] - vdotr * velocity.elements[i])
+// 		    / (gravparam) - position.elements[i] / magpos;
+// 	    }
+    
 
-	}
+// 	}
 
-    eccentricity = eccentricityVector.magVector();
+    // eccentricity = eccentricityVector.magVector();
 
-    }
+    // }
 
 void Body::calcOrbitFromVector(double G, double totmass)
     {
@@ -303,12 +306,17 @@ void Body::calcOrbitFromVector(double G, double totmass)
     double magpos, nscalar;
 
     calcOrbitalAngularMomentum();
-    calcEccentricity(G, totmass);
+    //calcEccentricity(G, totmass);
 
     // Calculate semi-major axis from |h| and |e|
 
     semiMajorAxis = magOrbitalAngularMomentum * magOrbitalAngularMomentum / (G
 	    * (totmass) * (1 - eccentricity * eccentricity));
+
+        cout << "semiMajorAxis =" << semiMajorAxis << endl;
+        // cout << "Angular Momentum =" << magOrbitalAngularMomentum << endl;
+        // cout << "totmass =" << totmass << endl;
+        cout << "e =" << eccentricity << endl;
 
     period = calcPeriod(G,totmass);
 
@@ -579,11 +587,17 @@ void Body::calcVectorFromOrbit(double G, double totmass)
     magpos = semiMajorAxis * (1.0 - eccentricity * eccentricity) / (1.0
 	    + eccentricity * cos(trueAnomaly));
 
+        // cout << "magpos =" << magpos << endl;
+
     /* 2. Calculate position vector in orbital plane */
 
     position.elements[0] = magpos * cos(trueAnomaly);
     position.elements[1] = magpos * sin(trueAnomaly);
     position.elements[2] = 0.0;
+
+    // cout << "position.elements[0] =" << position.elements[0] << endl;
+    // cout << "position.elements[1] =" << position.elements[1] << endl;
+    // cout << "position.elements[2] =" << position.elements[2] << endl;
 
     /* 3. Calculate velocity vector in orbital plane */
     semiLatusRectum = fabs(semiMajorAxis * (1.0 - eccentricity * eccentricity));

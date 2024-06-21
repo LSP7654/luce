@@ -22,8 +22,8 @@ class body(object):
         Constructor
         '''
         self.bodytype = bodytype
-        self.mass = np.float(mass)
-        self.radius = np.float(radius)
+        self.mass = float(mass)
+        self.radius = float(radius)
         self.x = np.array(float(xi))
         self.y = np.array(float(yi))
         self.z = np.array(float(zi))
@@ -42,21 +42,21 @@ class body(object):
         self.meananom = np.array(float(meananom))
         
     def update_body(self, xi, yi, zi, vxi, vyi, vzi,a,e,i,longascend,argper,meananom):
-        self.x = np.append(self.x, np.float(xi))
-        self.y = np.append(self.y, np.float(yi))
-        self.z = np.append(self.z, np.float(zi))
+        self.x = np.append(self.x, float(xi))
+        self.y = np.append(self.y, float(yi))
+        self.z = np.append(self.z, float(zi))
         self.r = np.append(self.r, np.sqrt(float(xi)*float(xi) + float(yi)*float(yi) +float(zi)*float(zi)))
-        self.vx = np.append(self.vx, np.float(vxi))
-        self.vy = np.append(self.vy, np.float(vyi))
-        self.vz = np.append(self.vz, np.float(vzi))
+        self.vx = np.append(self.vx, float(vxi))
+        self.vy = np.append(self.vy, float(vyi))
+        self.vz = np.append(self.vz, float(vzi))
         
         
         self.v = np.append(self.v,np.sqrt(float(vxi)*float(vxi) + float(vyi)*float(vyi) +float(vzi)*float(vzi)))
-        self.a = np.append(self.a,np.float(a))
-        self.e = np.append(self.e,np.float(e))
-        self.i = np.append(self.i, np.float(i))
-        self.longascend = np.append(self.longascend, np.float(longascend))
-        self.argper = np.append(self.argper, np.float(argper))
-        self.meananom = np.append(self.meananom, np.float(meananom))
+        self.a = np.append(self.a,float(a))
+        self.e = np.append(self.e,float(e))
+        self.i = np.append(self.i,float(i))
+        self.longascend = np.append(self.longascend, float(longascend))
+        self.argper = np.append(self.argper, float(argper))
+        self.meananom = np.append(self.meananom, float(meananom))
 
         
